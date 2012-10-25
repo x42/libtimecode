@@ -1,0 +1,65 @@
+/*
+ * main page of the libTimecode manual
+ */
+
+/**
+@mainpage Timecode Framerate Library
+
+@section intro Introduction
+
+@section download Download
+<ul>
+ <li><a href="http://github.com/x42/libtimecode/downloads">GitHub Downloads</a></li>
+ <li><a href="http://github.com/x42/libtimecode/">GitHub Project Page</a></li>
+</ul>
+
+@section installation Installation
+ libtimecode uses GNU autotools and libtool. The default auto-* workflow applies:
+
+ run <tt>./configure</tt> and build libtimecode with <tt>make</tt>. See the INSTALL file for further instructions.
+
+ The tar.gz package release includes the build-environment (<tt>configure</tt> script, etc), but if you get the source from the repository, you first need to generate the build environment with something alike:
+ <tt>aclocal; autoheader; libtoolize --copy; autoconf; automake --gnu --add-missing --copy</tt>. (<i>OSX users use <tt>glibtoolize</tt></i>).
+
+ If <a href="http://doxygen.org/">Doxygen</a> is available, the documentation can be [re-]generated from the source by calling <tt>make dox</tt>. Self-test scenarios and example code can be compiled and executed with <tt>make check</tt>.
+
+@section usage Usage
+ Consult \ref timecode.h for a detailed reference of available functions.
+ The documentation is also available as Unix manual pages.
+
+@section about Q&A
+
+<dl>
+ <dt>How can I get help?</dt>
+ <dd>
+  The preferred way is to use the issue-tracker at https://github.com/x42/libtimecode/issues .
+  You can also send a private-mail to the authors.
+ </dd>
+
+@section references References
+<ul>
+ <li><a href="https://github.com/x42/libltc/">libLTC GitHub Project Page</a></li>
+ <li><a href="https://sourceforge.net/projects/ltcsmpte/">libLTCSMPTE Sourceforge Project Page</a></li>
+ <li><a href="http://en.wikipedia.org/wiki/SMPTE_timecode">Wikipedia Page on SMPTE</a></li>
+</ul>
+
+@section license License
+
+Copyright (C) 2006-2012 by Robin Gareus
+
+ libtimecode is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 3 of the License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see http://www.gnu.org/licenses/
+
+*/
+
+/* vi:set ts=2 sts=2 sw=2 et: */
