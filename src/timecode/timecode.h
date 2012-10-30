@@ -66,7 +66,7 @@ typedef struct TimecodeDate {
 	int32_t year;
 	int32_t month;
 	int32_t day;
-	int32_t timezone;
+	int32_t timezone; // minutes west of UTC
 } TimecodeDate;
 
 
@@ -89,6 +89,7 @@ const TimecodeRate tcfps24976  = {25000, 1001, 0, 80};
 const TimecodeRate tcfps25     = {25, 1, 0, 80};
 const TimecodeRate tcfps2997df = {30000, 1001, 1, 100};
 const TimecodeRate tcfps30     = {30, 1, 0, 80};
+const TimecodeRate tcfpsMS     = {1000, 1, 0, 1000};
 
 #define TCFPS23976 (&tcfps23976)
 #define TCFPS24 (&tcfps24)
@@ -96,6 +97,8 @@ const TimecodeRate tcfps30     = {30, 1, 0, 80};
 #define TCFPS25 (&tcfps25)
 #define TCFPS2997DF (&tcfps2997df)
 #define TCFPS30 (&tcfps30)
+#define TCFPSMS (&tcfpsMS)
+
 
 /**
  * convert Timecode to audio sample number
@@ -124,30 +127,81 @@ int64_t timecode_to_sample (TimecodeTime const * const t, TimecodeRate const * c
 void timecode_sample_to_time (TimecodeTime * const t, TimecodeRate const * const r, const double samplerate, const int64_t sample);
 
 
-/* TODO, ideas */
+/* ADD/SUBTRACT timecodes at same framerate */
 
-// add, subtract, compare
-// add/subtract int frames or float sec
+/**
+ */
+void timecode_time_add (TimecodeTime * const res, TimecodeRate const * const r, TimecodeTime const * const t1, TimecodeTime const * const t2);
+/**
+ */
+void timecode_time_subtract (TimecodeTime * const res, TimecodeRate const * const r, TimecodeTime const * const t1, TimecodeTime const * const t2);
 
-// increment, decrement
 
+/* COMPARISON OPERATORS at same framerate */
+
+/**
+ * @return +1 if a is later than b, -1 if a is earlier than b, 0 if timecodes are equal
+ */
+int timecode_time_compare (TimecodeRate const * const r, TimecodeTime const * const a, TimecodeTime const * const b);
+
+/**
+ * @return +1 if a is later than b, -1 if a is earlier than b, 0 if timecodes are equal
+ */
+int timecode_date_compare (TimecodeDate const * const a, TimecodeDate const * const b);
+
+/**
+ * @return +1 if a is later than b, -1 if a is earlier than b, 0 if timecodes are equal
+ */
+int timecode_datetime_compare (TimecodeRate const * const r, Timecode const * const a, Timecode const * const b);
+
+
+/* increment, decrement */
+
+/**
+ */
 void timecode_date_increment(TimecodeDate * const d);
+/**
+ */
 int timecode_time_increment(TimecodeTime * const t, TimecodeRate const * const r);
+/**
+ */
 void timecode_date_decrement (TimecodeDate * const d);
+/**
+ */
 int timecode_time_decrement(TimecodeTime * const t, TimecodeRate const * const r);
+/**
+ */
 int timecode_datetime_increment (Timecode * const dt, TimecodeRate const * const r);
+/**
+ */
 int timecode_datetime_decrement (Timecode * const dt, TimecodeRate const * const r);
 
-// parse from string, export to string
-void timecode_time_to_string (TimecodeTime *t, char *smptestring);
+
+/* parse from string, export to string */
+
+/**
+ * length of smptestring: 33 bytes
+ */
+void timecode_datetime_to_string (Timecode const * const tc, char *smptestring);
+/**
+ * length of smptestring: 16 bytes
+ */
+void timecode_time_to_string (TimecodeTime const * const t, char *smptestring);
+/**
+ */
+void timecode_parse_time (TimecodeTime * const t, TimecodeRate const * const r, const char *val);
+
+/**
+ */
+double timecode_fr_to_double(TimecodeRate const * const r);
+
+/* TODO, ideas */
+// add/subtract int frames or float sec
 // parse from float sec, export to float sec
-// convert to float sec and back
-// convert to audio samples and back
 // convert to video frame number and back
+// -> use timecode_rate_to_double() as samplerate
+//
 // convert between framerates including milli-seconds HH:MM:SS.DDD
-//
-// drop-frames, convert ratio/double
-//
 // Bar, Beat, Tick Time (Tempo-Based Time)
 
 #ifdef __cplusplus
