@@ -1,16 +1,100 @@
 #include <stdio.h>
 #include <timecode/timecode.h>
 
-int checkfps(int64_t magic, TimecodeRate const * const fps) {
+int checkfps(int64_t magic, TimecodeRate const * const fps, double samplerate) {
 	TimecodeTime t;
 	char tcs[20];
 	int64_t test;
 
-	timecode_sample_to_time(&t, fps, 48000, magic);
-	test = timecode_to_sample(&t, fps, 48000);
+	timecode_sample_to_time(&t, fps, samplerate, magic);
+	test = timecode_to_sample(&t, fps, samplerate);
 	timecode_time_to_string(&t, tcs); fprintf(stdout, "%s\n", tcs);
 	printf("%lld %lld  diff: %lld\n", test, magic, magic-test);
 
+	return 0;
+}
+
+int checkadd(TimecodeRate const * const fps, double samplerate) {
+	TimecodeTime t;
+	char tcs[20];
+	int64_t test;
+
+	t.hour   = 2;
+	t.minute = 33;
+	t.second = 59;
+	t.frame  = 22;
+	t.subframe = 20;
+
+	test = timecode_to_sample(&t, fps, samplerate);
+	test*=2;
+	timecode_sample_to_time(&t, fps, samplerate, test);
+	timecode_time_to_string(&t, tcs); fprintf(stdout, "%s\n", tcs);
+	test/=2;
+	timecode_sample_to_time(&t, fps, samplerate, test);
+
+	t.hour   = 2;
+	t.minute = 33;
+	t.second = 59;
+	t.frame  = 22;
+	t.subframe = 20;
+	timecode_time_add(&t, fps, &t, &t);
+	timecode_time_to_string(&t, tcs); fprintf(stdout, "%s\n", tcs);
+	return 0;
+}
+
+int checksub(TimecodeRate const * const fps, double samplerate) {
+	TimecodeTime t1,t2,res;
+	char tcs[20];
+	int64_t test1,test2;
+
+	t1.hour   = 2;
+	t1.minute = 33;
+	t1.second = 59;
+	t1.frame  = 22;
+	t1.subframe = 0;
+
+	t2.hour   = 0;
+	t2.minute = 20;
+	t2.second = 9;
+	t2.frame  = 12;
+	t2.subframe = 50;
+
+	test1 = timecode_to_sample(&t1, fps, samplerate);
+	test2 = timecode_to_sample(&t2, fps, samplerate);
+
+	timecode_sample_to_time(&res, fps, samplerate, test1-test2);
+	timecode_time_to_string(&res, tcs); fprintf(stdout, "%s\n", tcs);
+
+	timecode_time_subtract(&res, fps, &t1, &t2);
+	timecode_time_to_string(&res, tcs); fprintf(stdout, "%s\n", tcs);
+	return 0;
+}
+
+int checkcmp() {
+	Timecode a,b;
+
+	a.d.year     = 2008;
+	a.d.month    = 12;
+	a.d.day      = 31;
+	a.d.timezone = 0;
+	a.t.hour     = 23;
+	a.t.minute   = 59;
+	a.t.second   = 59;
+	a.t.frame    = 29;
+	a.t.subframe = 29;
+
+	b.d.year     = 2008;
+	b.d.month    = 12;
+	b.d.day      = 31;
+	b.d.timezone = -60;
+	b.t.hour     = 23;
+	b.t.minute   = 59;
+	b.t.second   = 59;
+	b.t.frame    = 29;
+	b.t.subframe = 29;
+
+	printf("compare a<>b = %d\n", 
+			timecode_datetime_compare(TCFPS2997DF, &a, &b));
 	return 0;
 }
 
@@ -18,18 +102,43 @@ int main (int argc, char **argv) {
   int64_t magic = 964965602; // 05:34:42:11 @29.97df
 	Timecode tc;
 
-	checkfps(magic, TCFPS24);
-	checkfps(magic, TCFPS25);
-	checkfps(magic, TCFPS2997DF);
-	checkfps(magic, TCFPS30);
+	/* test converter */
+	printf("test convert\n");
+	checkfps(magic, TCFPS24, 48000);
+	checkfps(magic, TCFPS25, 48000);
+	checkfps(magic, TCFPS2997DF, 48000);
+	checkfps(magic, TCFPS30, 48000);
 
-	tc.d.year   =  8;
-	tc.d.month  = 12;
-	tc.d.day    = 31;
-	tc.t.hour   = 23;
-	tc.t.minute = 59;
-	tc.t.second = 59;
-	tc.t.frame  = 29;
+	/* test parser */
+	printf("test parser\n");
+	TimecodeTime t;
+	char tcs[20];
+	timecode_parse_time(&t, TCFPS25, "1:::-1");
+	timecode_time_to_string(&t, tcs); fprintf(stdout, "%s\n", tcs);
+
+	/* test add/sub */
+	printf("test addition/subtraction\n");
+	checkadd(TCFPS2997DF, 48000);
+	checksub(TCFPS2997DF, 48000);
+
+	checkadd(TCFPS30, 48000);
+	checksub(TCFPS30, 48000);
+
+	/* test add/sub */
+	printf("test compare\n");
+	checkcmp();
+
+	/* test inc/dec */
+	printf("test inc/dec\n");
+	tc.d.year     = 2008;
+	tc.d.month    = 12;
+	tc.d.day      = 31;
+	tc.d.timezone = 0;
+	tc.t.hour     = 23;
+	tc.t.minute   = 59;
+	tc.t.second   = 59;
+	tc.t.frame    = 29;
+	tc.t.subframe = 29;
 
 	timecode_datetime_increment(&tc, TCFPS30);
 	timecode_datetime_decrement(&tc, TCFPS30);
