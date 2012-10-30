@@ -1,24 +1,65 @@
-.TH "timecode.h" 3 "Thu Oct 25 2012" "Version 0.5.0" "libtimecode" \" -*- nroff -*-
+.TH "timecode.h" 3 "Fri Oct 26 2012" "Version 0.5.0" "libtimecode" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
 timecode.h \- 
 .PP
-libtimecode - timecode and framerate conversion  
+libtimecode - convert A/V timecode and framerate  
 
 .SH SYNOPSIS
 .br
 .PP
+.SS "Data Structures"
+
+.in +1c
+.ti -1c
+.RI "struct \fBTimecodeTime\fP"
+.br
+.ti -1c
+.RI "struct \fBTimecodeDate\fP"
+.br
+.ti -1c
+.RI "struct \fBTimecodeRate\fP"
+.br
+.ti -1c
+.RI "struct \fBTimecode\fP"
+.br
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef int \fBint32_t\fP"
+.br
+.ti -1c
+.RI "typedef long long int \fBint64_t\fP"
+.br
+.ti -1c
+.RI "typedef struct \fBTimecodeTime\fP \fBTimecodeTime\fP"
+.br
+.ti -1c
+.RI "typedef struct \fBTimecodeDate\fP \fBTimecodeDate\fP"
+.br
+.ti -1c
+.RI "typedef struct \fBTimecodeRate\fP \fBTimecodeRate\fP"
+.br
+.ti -1c
+.RI "typedef struct \fBTimecode\fP \fBTimecode\fP"
+.br
+.in -1c
 .SS "Functions"
 
 .in +1c
 .ti -1c
-.RI "void \fBtimecode_sub\fP ()"
+.RI "\fBint64_t\fP \fBtimecode_time_to_sample\fP (\fBTimecodeTime\fP *t, \fBTimecodeRate\fP *r, double samplerate)"
+.br
+.ti -1c
+.RI "void \fBtimecode_sample_to_time\fP (\fBTimecodeTime\fP *t, \fBTimecodeRate\fP *r, double samplerate, \fBint64_t\fP sample)"
 .br
 .in -1c
 .SH "Detailed Description"
 .PP 
-libtimecode - timecode and framerate conversion 
+libtimecode - convert A/V timecode and framerate 
 
 \fBAuthor:\fP
 .RS 4
@@ -32,10 +73,130 @@ This program is free software; you can redistribute it and/or modify it under th
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE\&. See the GNU Lesser Public License for more details\&.
 .PP
 You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc\&., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA 
+.SH "Data Structure Documentation"
+.PP 
+.SH "struct TimecodeTime"
+.PP 
+\fBData Fields:\fP
+.RS 4
+\fBint32_t\fP \fIframe\fP 
+.br
+.PP
+\fBint32_t\fP \fIhour\fP 
+.br
+.PP
+\fBint32_t\fP \fIminute\fP 
+.br
+.PP
+\fBint32_t\fP \fIsecond\fP 
+.br
+.PP
+\fBint32_t\fP \fIsubframe\fP 
+.br
+.PP
+.RE
+.PP
+.SH "struct TimecodeDate"
+.PP 
+\fBData Fields:\fP
+.RS 4
+\fBint32_t\fP \fIday\fP 
+.br
+.PP
+\fBint32_t\fP \fImonth\fP 
+.br
+.PP
+\fBint32_t\fP \fItimezone\fP 
+.br
+.PP
+\fBint32_t\fP \fIyear\fP 
+.br
+.PP
+.RE
+.PP
+.SH "struct TimecodeRate"
+.PP 
+\fBData Fields:\fP
+.RS 4
+\fBint32_t\fP \fIden\fP 
+.br
+.PP
+int \fIdrop\fP 
+.br
+.PP
+\fBint32_t\fP \fInum\fP 
+.br
+.PP
+\fBint32_t\fP \fIsubframes\fP 
+.br
+.PP
+.RE
+.PP
+.SH "struct Timecode"
+.PP 
+\fBData Fields:\fP
+.RS 4
+\fBTimecodeTime\fP \fId\fP 
+.br
+.PP
+\fBTimecodeTime\fP \fIt\fP 
+.br
+.PP
+.RE
+.PP
+.SH "Typedef Documentation"
+.PP 
+.SS "typedef int \fBint32_t\fP"
+
+.SS "typedef long long int \fBint64_t\fP"
+
+.SS "typedef struct \fBTimecode\fP  \fBTimecode\fP"
+
+.SS "typedef struct \fBTimecodeDate\fP  \fBTimecodeDate\fP"
+
+.SS "typedef struct \fBTimecodeRate\fP  \fBTimecodeRate\fP"
+
+.SS "typedef struct \fBTimecodeTime\fP  \fBTimecodeTime\fP"
+
 .SH "Function Documentation"
 .PP 
-.SS "void timecode_sub ()"
-getting started sub 
+.SS "void timecode_sample_to_time (\fBTimecodeTime\fP *t, \fBTimecodeRate\fP *r, doublesamplerate, \fBint64_t\fPsample)"
+convert audio sample number to \fBTimecode\fP
+.PP
+NB\&. this function can also be used to convert integer milli-seconds or micro-seconds by specifying a samplerate of 1000 or 10^6 respectively\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIt\fP [output] the timecode that corresponds to the sample 
+.br
+\fIr\fP framerate to use for conversion 
+.br
+\fIsamplerate\fP the sample-rate the sample was taken at 
+.br
+\fIsample\fP the audio sample number to convert 
+.RE
+.PP
+
+.SS "\fBint64_t\fP timecode_time_to_sample (\fBTimecodeTime\fP *t, \fBTimecodeRate\fP *r, doublesamplerate)"
+convert \fBTimecode\fP to audio sample number
+.PP
+NB\&. this function can also be used to convert integer milli-seconds or micro-seconds by specifying a samplerate of 1000 or 10^6 respectively\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIt\fP the timecode to convert 
+.br
+\fIr\fP framerate to use for conversion 
+.br
+\fIsamplerate\fP the sample-rate the sample was taken at 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+audio sample number 
+.RE
+.PP
+
 .SH "Author"
 .PP 
 Generated automatically by Doxygen for libtimecode from the source code\&.

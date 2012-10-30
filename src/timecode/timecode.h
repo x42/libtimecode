@@ -1,5 +1,5 @@
-/** 
-   @brief libtimecode - timecode and framerate conversion 
+/**
+   @brief libtimecode - convert A/V timecode and framerate
    @file timecode.h
    @author Robin Gareus <robin@gareus.org>
 
@@ -45,10 +45,110 @@ extern "C" {
 #define LIBTIMECODE_AGE  0
 #endif
 
+#ifndef int32_t
+typedef int int32_t;
+#endif
+
+#ifndef int64_t
+typedef long long int int64_t;
+#endif
+
+typedef struct TimecodeTime {
+	int32_t hour;
+	int32_t minute;
+	int32_t second;
+	int32_t frame;
+	int32_t subframe;
+} TimecodeTime;
+
+
+typedef struct TimecodeDate {
+	int32_t year;
+	int32_t month;
+	int32_t day;
+	int32_t timezone;
+} TimecodeDate;
+
+
+typedef struct TimecodeRate {
+	int32_t num;
+	int32_t den;
+	int drop; //< bool
+	int32_t subframes;
+} TimecodeRate;
+
+typedef struct Timecode {
+	TimecodeTime t;
+	TimecodeDate d;
+} Timecode;
+
+
+const TimecodeRate tcfps23976  = {24000, 1001, 0, 80};
+const TimecodeRate tcfps24     = {24, 1, 0, 100};
+const TimecodeRate tcfps24976  = {25000, 1001, 0, 80};
+const TimecodeRate tcfps25     = {25, 1, 0, 80};
+const TimecodeRate tcfps2997df = {30000, 1001, 1, 100};
+const TimecodeRate tcfps30     = {30, 1, 0, 80};
+
+#define TCFPS23976 (&tcfps23976)
+#define TCFPS24 (&tcfps24)
+#define TCFPS24976 (&tcfps24976)
+#define TCFPS25 (&tcfps25)
+#define TCFPS2997DF (&tcfps2997df)
+#define TCFPS30 (&tcfps30)
+
 /**
- * getting started sub
+ * convert Timecode to audio sample number
+ *
+ * NB. this function can also be used to convert integer milli-seconds or
+ * micro-seconds by specifying a samplerate of 1000 or 10^6 respectively.
+ *
+ * @param t the timecode to convert
+ * @param r framerate to use for conversion
+ * @param samplerate the sample-rate the sample was taken at
+ * @return audio sample number
  */
-void timecode_sub();
+int64_t timecode_to_sample (TimecodeTime const * const t, TimecodeRate const * const r, const double samplerate);
+
+/**
+ * convert audio sample number to Timecode
+ *
+ * NB. this function can also be used to convert integer milli-seconds or
+ * micro-seconds by specifying a samplerate of 1000 or 10^6 respectively.
+ *
+ * @param t [output] the timecode that corresponds to the sample
+ * @param r framerate to use for conversion
+ * @param samplerate the sample-rate the sample was taken at
+ * @param sample the audio sample number to convert
+ */
+void timecode_sample_to_time (TimecodeTime * const t, TimecodeRate const * const r, const double samplerate, const int64_t sample);
+
+
+/* TODO, ideas */
+
+// add, subtract, compare
+// add/subtract int frames or float sec
+
+// increment, decrement
+
+void timecode_date_increment(TimecodeDate * const d);
+int timecode_time_increment(TimecodeTime * const t, TimecodeRate const * const r);
+void timecode_date_decrement (TimecodeDate * const d);
+int timecode_time_decrement(TimecodeTime * const t, TimecodeRate const * const r);
+int timecode_datetime_increment (Timecode * const dt, TimecodeRate const * const r);
+int timecode_datetime_decrement (Timecode * const dt, TimecodeRate const * const r);
+
+// parse from string, export to string
+void timecode_time_to_string (TimecodeTime *t, char *smptestring);
+// parse from float sec, export to float sec
+// convert to float sec and back
+// convert to audio samples and back
+// convert to video frame number and back
+// convert between framerates including milli-seconds HH:MM:SS.DDD
+//
+// drop-frames, convert ratio/double
+//
+// Bar, Beat, Tick Time (Tempo-Based Time)
 
 #ifdef __cplusplus
 }
