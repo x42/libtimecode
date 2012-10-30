@@ -1,0 +1,48 @@
+Source: libtimecode
+Section: libs
+Priority: optional
+Maintainer: Robin Gareus <robin@gareus.org>
+Build-Depends:
+ automake,
+ autotools-dev,
+ debhelper (>= 9),
+ dh-autoreconf,
+ libtool
+Build-Depends-Indep:
+ doxygen
+Standards-Version: 3.9.3
+Homepage: https://github.com/x42/libtimecode
+Vcs-Git: git://github.com/x42/libtimecode.git
+
+Package: libtimecode-dev
+Section: libdevel
+Architecture: any
+Depends:
+ libtimecode0(= ${binary:Version}),
+ ${misc:Depends}
+Multi-Arch: same
+Description: Development files for libtimecode
+ work with A/V timecode and framerates..
+ .
+ This package contains files needed for application development.
+
+Package: libtimecode-doc
+Section: doc
+Architecture: all
+Depends:
+ ${misc:Depends}
+Description: Documentation for libtimecode
+ work with A/V timecode and framerates..
+ .
+ This package contains the API reference (as manpages) for the development of
+ applications.
+
+Package: libtimecode0
+Architecture: any
+Pre-Depends: ${misc:Pre-Depends}
+Depends:
+ ${misc:Depends},
+ ${shlibs:Depends}
+Multi-Arch: same
+Description: linear timecode and framerate conversion library
+ work with A/V timecode and framerates..
