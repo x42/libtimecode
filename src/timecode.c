@@ -46,7 +46,7 @@ int64_t timecode_to_sample (TimecodeTime const * const t, TimecodeRate const * c
 		int64_t totalMinutes = 60 * t->hour + t->minute;
 		int64_t frameNumber  = fps_i * 3600 * t->hour + fps_i * 60 * t->minute
 			                 + fps_i * t->second + t->frame
-											 - 2 * (totalMinutes - totalMinutes / 10);
+					 - 2 * (totalMinutes - totalMinutes / 10);
 
 		sample = frameNumber * samplerate / fps_d;
 	} else {
@@ -401,7 +401,7 @@ static const char *strrpbrk(const char * const haystack, const char * const need
 			if (*pn == *ph) {
 				rv = ph;
 				break;
-	    }
+			}
 		}
 	}
 	return rv;
