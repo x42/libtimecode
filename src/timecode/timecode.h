@@ -115,6 +115,9 @@ const TimecodeRate tcfpsMS      = {1000, 1, 0, 1000};
 #define TCFPS30 (&tcfps30)
 #define TCFPSMS (&tcfpsMS)
 
+
+/*  --- misc functions  --- */
+
 /**
  * convert rational framerate to double (r->num / r->den).
  *
@@ -130,6 +133,9 @@ double timecode_rate_to_double(TimecodeRate const * const r);
  * @return number of samples per timecode-frame.
  */
 double timecode_frames_per_timecode_frame(TimecodeRate const * const r, const double samplerate);
+
+
+/*  --- timecode <> sample,frame-number  --- */
 
 /**
  * convert Timecode to audio sample number
@@ -212,7 +218,7 @@ void timecode_time_add (TimecodeTime * const res, TimecodeRate const * const r, 
 void timecode_time_subtract (TimecodeTime * const res, TimecodeRate const * const r, TimecodeTime const * const t1, TimecodeTime const * const t2);
 
 
-/* COMPARISON OPERATORS at same framerate */
+/*  --- comparison operators at same framerate  --- */
 
 /**
  * The timecode_time_compare() function compares the two timecodes a and b.
@@ -253,7 +259,7 @@ int timecode_date_compare (TimecodeDate const * const a, TimecodeDate const * co
 int timecode_datetime_compare (TimecodeRate const * const r, Timecode const * const a, Timecode const * const b);
 
 
-/* increment, decrement */
+/*  --- increment, decrement  --- */
 
 /**
  * increment date by one day.

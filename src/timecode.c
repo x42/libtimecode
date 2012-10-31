@@ -30,6 +30,10 @@
 
 #include "timecode/timecode.h"
 
+/*****************************************************************************
+ * misc & helper functions
+ */
+
 #define TCtoDbl(r) ( (double)((r)->num) / (double)((r)->den) )
 
 double timecode_rate_to_double(TimecodeRate const * const r) {
@@ -39,6 +43,10 @@ double timecode_rate_to_double(TimecodeRate const * const r) {
 double timecode_frames_per_timecode_frame(TimecodeRate const * const r, const double samplerate) {
 	return (samplerate / TCtoDbl(r));
 }
+
+/*****************************************************************************
+ * timecode <> sample,frame-number
+ */
 
 int64_t timecode_to_sample (TimecodeTime const * const t, TimecodeRate const * const r, const double samplerate) {
 	const double  fps_d = TCtoDbl(r);
@@ -74,10 +82,11 @@ void timecode_sample_to_time (TimecodeTime * const t, TimecodeRate const * const
 	if (r->drop) {
 		int64_t frameNumber = floor( (double)sample * fps_d / samplerate );
 
+		/* there are 17982 frames in 10 min @ 29.97df */
 		const int64_t D = frameNumber / 17982;
 		const int64_t M = frameNumber % 17982;
 
-		t->subframe =  rint(r->subframes * ((double)sample * fps_d / samplerate - (double)frameNumber ));
+		t->subframe =  rint(r->subframes * ((double)sample * fps_d / samplerate - (double)frameNumber));
 
 		if (t->subframe == r->subframes) {
 			t->subframe = 0;
@@ -411,6 +420,7 @@ void timecode_time_to_string (TimecodeTime const * const t, char *smptestring) {
 			t->hour, t->minute, t->second, t->frame);
 }
 
+/* C99 only defines strpbrk() - this is the reverse version */
 static const char *strrpbrk(const char * const haystack, const char * const needle) {
 	const char *ph, *pn, *rv;
 	if (!haystack || !needle) return NULL;
