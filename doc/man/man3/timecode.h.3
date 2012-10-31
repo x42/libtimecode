@@ -285,7 +285,7 @@ define a framerate
 classical timecode 
 .SH "Function Documentation"
 .PP 
-.SS "int timecode_date_compare (\fBTimecodeDate\fP const *consta, \fBTimecodeDate\fP const *constb)"
+.SS "int timecode_date_compare (\fBTimecodeDate\fP const *const a, \fBTimecodeDate\fP const *const b)"
 The \fBtimecode_date_compare()\fP function compares the two dates a and b\&. It returns an integer less than, equal to, or greater than zero if a is found, respectively, to be later than, to match, or be earlier than b\&.
 .PP
 \fBParameters:\fP
@@ -301,7 +301,7 @@ The \fBtimecode_date_compare()\fP function compares the two dates a and b\&. It 
 .RE
 .PP
 
-.SS "void timecode_date_decrement (\fBTimecodeDate\fP *constd)"
+.SS "void timecode_date_decrement (\fBTimecodeDate\fP *const d)"
 decrement date by one day\&. Note: this function honors leap-years\&. 
 .PP
 \fBParameters:\fP
@@ -310,7 +310,7 @@ decrement date by one day\&. Note: this function honors leap-years\&.
 .RE
 .PP
 
-.SS "void timecode_date_increment (\fBTimecodeDate\fP *constd)"
+.SS "void timecode_date_increment (\fBTimecodeDate\fP *const d)"
 increment date by one day\&. Note: This function honors leap-years\&. 
 .PP
 \fBParameters:\fP
@@ -319,7 +319,7 @@ increment date by one day\&. Note: This function honors leap-years\&.
 .RE
 .PP
 
-.SS "int timecode_datetime_compare (\fBTimecodeRate\fP const *constr, \fBTimecode\fP const *consta, \fBTimecode\fP const *constb)"
+.SS "int timecode_datetime_compare (\fBTimecodeRate\fP const *const r, \fBTimecode\fP const *const a, \fBTimecode\fP const *const b)"
 The \fBtimecode_datetime_compare()\fP function compares the two datetimes a and b\&. It returns an integer less than, equal to, or greater than zero if a is found, respectively, to be later than, to match, or be earlier than b\&.
 .PP
 This function is a wrapper around \fBtimecode_time_compare\fP and \fBtimecode_date_compare\fP it includes additional functionality to handle timezones correctly\&.
@@ -339,7 +339,7 @@ This function is a wrapper around \fBtimecode_time_compare\fP and \fBtimecode_da
 .RE
 .PP
 
-.SS "int timecode_datetime_decrement (\fBTimecode\fP *constdt, \fBTimecodeRate\fP const *constr)"
+.SS "int timecode_datetime_decrement (\fBTimecode\fP *const dt, \fBTimecodeRate\fP const *const r)"
 increment datetime by one frame this is a wrapper function around \fBtimecode_date_increment\fP and \fBtimecode_time_increment\fP 
 .PP
 \fBParameters:\fP
@@ -355,7 +355,7 @@ increment datetime by one frame this is a wrapper function around \fBtimecode_da
 .RE
 .PP
 
-.SS "int timecode_datetime_increment (\fBTimecode\fP *constdt, \fBTimecodeRate\fP const *constr)"
+.SS "int timecode_datetime_increment (\fBTimecode\fP *const dt, \fBTimecodeRate\fP const *const r)"
 increment datetime by one frame this is a wrapper function around \fBtimecode_date_increment\fP and \fBtimecode_time_increment\fP 
 .PP
 \fBParameters:\fP
@@ -371,7 +371,7 @@ increment datetime by one frame this is a wrapper function around \fBtimecode_da
 .RE
 .PP
 
-.SS "void timecode_datetime_to_string (\fBTimecode\fP const *consttc, char *smptestring)"
+.SS "void timecode_datetime_to_string (\fBTimecode\fP const *const tc, char * smptestring)"
 format timecode as string 'MM/DD/YYYY HH:MM:SS:FF\&.SSS +TZMM' 
 .PP
 \fBParameters:\fP
@@ -382,7 +382,7 @@ format timecode as string 'MM/DD/YYYY HH:MM:SS:FF\&.SSS +TZMM'
 .RE
 .PP
 
-.SS "void timecode_parse_time (\fBTimecodeTime\fP *constt, \fBTimecodeRate\fP const *constr, const char *val)"
+.SS "void timecode_parse_time (\fBTimecodeTime\fP *const t, \fBTimecodeRate\fP const *const r, const char * val)"
 parse string to timecode time - separators may include ':\&.;' the format is '[[[HH:]MM:]SS:]FF', subframes are set to 0\&.
 .PP
 \fBParameters:\fP
@@ -395,7 +395,7 @@ parse string to timecode time - separators may include ':\&.;' the format is '[[
 .RE
 .PP
 
-.SS "double timecode_rate_to_double (\fBTimecodeRate\fP const *constr)"
+.SS "double timecode_rate_to_double (\fBTimecodeRate\fP const *const r)"
 convert rational framerate to double (r->num/r->den)\&.
 .PP
 \fBParameters:\fP
@@ -409,7 +409,7 @@ double representation of framerate
 .RE
 .PP
 
-.SS "void timecode_sample_to_time (\fBTimecodeTime\fP *constt, \fBTimecodeRate\fP const *constr, const doublesamplerate, const \fBint64_t\fPsample)"
+.SS "void timecode_sample_to_time (\fBTimecodeTime\fP *const t, \fBTimecodeRate\fP const *const r, const double samplerate, const \fBint64_t\fP sample)"
 convert audio sample number to timecode
 .PP
 NB\&. this function can also be used to convert integer milli-seconds or micro-seconds by specifying a samplerate of 1000 or 10^6 respectively\&.
@@ -428,9 +428,9 @@ When used with samplerate == \fBtimecode_rate_to_double\fP this function can als
 .RE
 .PP
 
-.SS "void timecode_time_add (\fBTimecodeTime\fP *constres, \fBTimecodeRate\fP const *constr, \fBTimecodeTime\fP const *constt1, \fBTimecodeTime\fP const *constt2)"
+.SS "void timecode_time_add (\fBTimecodeTime\fP *const res, \fBTimecodeRate\fP const *const r, \fBTimecodeTime\fP const *const t1, \fBTimecodeTime\fP const *const t2)"
 
-.SS "int timecode_time_compare (\fBTimecodeRate\fP const *constr, \fBTimecodeTime\fP const *consta, \fBTimecodeTime\fP const *constb)"
+.SS "int timecode_time_compare (\fBTimecodeRate\fP const *const r, \fBTimecodeTime\fP const *const a, \fBTimecodeTime\fP const *const b)"
 The \fBtimecode_time_compare()\fP function compares the two timecodes a and b\&. It returns an integer less than, equal to, or greater than zero if a is found, respectively, to be later than, to match, or be earlier than b\&.
 .PP
 \fBParameters:\fP
@@ -448,7 +448,7 @@ The \fBtimecode_time_compare()\fP function compares the two timecodes a and b\&.
 .RE
 .PP
 
-.SS "int timecode_time_decrement (\fBTimecodeTime\fP *constt, \fBTimecodeRate\fP const *constr)"
+.SS "int timecode_time_decrement (\fBTimecodeTime\fP *const t, \fBTimecodeRate\fP const *const r)"
 decrement timecode by one frame\&. 
 .PP
 \fBParameters:\fP
@@ -464,7 +464,7 @@ decrement timecode by one frame\&.
 .RE
 .PP
 
-.SS "int timecode_time_increment (\fBTimecodeTime\fP *constt, \fBTimecodeRate\fP const *constr)"
+.SS "int timecode_time_increment (\fBTimecodeTime\fP *const t, \fBTimecodeRate\fP const *const r)"
 increment timecode by one frame\&. 
 .PP
 \fBParameters:\fP
@@ -480,9 +480,9 @@ increment timecode by one frame\&.
 .RE
 .PP
 
-.SS "void timecode_time_subtract (\fBTimecodeTime\fP *constres, \fBTimecodeRate\fP const *constr, \fBTimecodeTime\fP const *constt1, \fBTimecodeTime\fP const *constt2)"
+.SS "void timecode_time_subtract (\fBTimecodeTime\fP *const res, \fBTimecodeRate\fP const *const r, \fBTimecodeTime\fP const *const t1, \fBTimecodeTime\fP const *const t2)"
 
-.SS "void timecode_time_to_string (\fBTimecodeTime\fP const *constt, char *smptestring)"
+.SS "void timecode_time_to_string (\fBTimecodeTime\fP const *const t, char * smptestring)"
 format timecode as string 'HH:MM:SS:FF\&.SSS' 
 .PP
 \fBParameters:\fP
@@ -493,7 +493,7 @@ format timecode as string 'HH:MM:SS:FF\&.SSS'
 .RE
 .PP
 
-.SS "\fBint64_t\fP timecode_to_sample (\fBTimecodeTime\fP const *constt, \fBTimecodeRate\fP const *constr, const doublesamplerate)"
+.SS "\fBint64_t\fP timecode_to_sample (\fBTimecodeTime\fP const *const t, \fBTimecodeRate\fP const *const r, const double samplerate)"
 convert \fBTimecode\fP to audio sample number
 .PP
 NB\&. this function can also be used to convert integer milli-seconds or micro-seconds by specifying a samplerate of 1000 or 10^6 respectively\&.
