@@ -155,5 +155,23 @@ int main (int argc, char **argv) {
 			tc.t.frame
 			);
 
+	tc.t.subframe = 0;
+
+	timecode_time_to_string(&tc.t, tcs); fprintf(stdout, "%s @30fps\n", tcs);
+	timecode_convert_rate(&tc.t, TCFPS24, &tc.t, TCFPS30);
+	timecode_time_to_string(&tc.t, tcs); fprintf(stdout, "%s @24fps\n", tcs);
+	timecode_convert_rate(&tc.t, TCFPS25, &tc.t, TCFPS24);
+	timecode_time_to_string(&tc.t, tcs); fprintf(stdout, "%s @25fps\n", tcs);
+	timecode_convert_rate(&tc.t, TCFPS30, &tc.t, TCFPS25);
+	timecode_time_to_string(&tc.t, tcs); fprintf(stdout, "%s @30fps\n", tcs);
+	timecode_convert_rate(&tc.t, TCFPS25, &tc.t, TCFPS30);
+	timecode_time_to_string(&tc.t, tcs); fprintf(stdout, "%s @25fps\n", tcs);
+	timecode_convert_rate(&tc.t, TCFPS24, &tc.t, TCFPS25);
+	timecode_time_to_string(&tc.t, tcs); fprintf(stdout, "%s @24fps\n", tcs);
+	timecode_convert_rate(&tc.t, TCFPS30, &tc.t, TCFPS24);
+	timecode_time_to_string(&tc.t, tcs); fprintf(stdout, "%s @30fps\n", tcs);
+	timecode_convert_rate(&tc.t, &tcfpsUS, &tc.t, TCFPS30);
+	timecode_time_to_string(&tc.t, tcs); fprintf(stdout, "%s\n", tcs);
+
 	return 0;
 }
