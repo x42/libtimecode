@@ -126,7 +126,6 @@ static int32_t move_overflow(TimecodeTime * const t, TimecodeRate const * const 
 	smpte_table[0] = r->subframes;
 	smpte_table[1] = ceil(TCtoDbl(r));
 
-	int minutes_crossed = 0;
 	for (i=0; i<5; i++) {
 		if ((*bcd[i] >= smpte_table[i]) || (*bcd[i] < 0) ) {
 			int ov= (int) floor((double) (*bcd[i]) / smpte_table[i]);
@@ -209,7 +208,7 @@ int timecode_date_compare (TimecodeDate const * const a, TimecodeDate const * co
 	if (a->year  != b->year ) return CMP(a->year, b->year);
 	if (a->month != b->month) return CMP(a->month, b->month);
 	if (a->day   != b->day  ) return CMP(a->day, b->day);
-	// TODO timezone  -- check date-line crossing.
+	// TODO timezone  -- check intl. date-line crossing.
 	if (a->timezone != b->timezone) return CMP(a->timezone, b->timezone);
 	return (0);
 }
