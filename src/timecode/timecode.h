@@ -247,20 +247,22 @@ int timecode_datetime_increment (Timecode * const dt, TimecodeRate const * const
 int timecode_datetime_decrement (Timecode * const dt, TimecodeRate const * const r);
 
 
-/* parse from string, export to string */
+/*  --- parse from string, export to string  --- */
 
 /**
- * format timecode as string "MM/DD/YYYY HH:MM:SS:FF.SSS +TZMM"
+ * format timecode as string "MM/DD/YYYY HH:MM:SS:FF +TZMM"
  * @param tc the datetime to print
- * @param smptestring [output] length of smptestring: 33 bytes (incl terminating zero)
+ * @param smptestring [output] length of smptestring: 29 bytes (incl terminating zero)
  */
+
 void timecode_datetime_to_string (Timecode const * const tc, char *smptestring);
 /**
- * format timecode as string "HH:MM:SS:FF.SSS"
+ * format timecode as string "HH:MM:SS:FF"
  * @param t the timecode to print
- * @param smptestring [output] length of smptestring: 16 bytes (incl terminating zero)
+ * @param smptestring [output] length of smptestring: 12 bytes (incl terminating zero)
  */
 void timecode_time_to_string (TimecodeTime const * const t, char *smptestring);
+
 /**
  * parse string to timecode time - separators may include ":.;"
  * the format is "[[[HH:]MM:]SS:]FF", subframes are set to 0.
@@ -282,10 +284,12 @@ double timecode_rate_to_double(TimecodeRate const * const r);
 
 /* TODO, ideas */
 // parse from float sec, export to float sec
+// parse date, timezone, parse packed format "HHMMSSFF"
+// flexible time and date formatting using '%' a la printf(), strftime()
+
 // add/subtract int frames or float sec
 // convert to video frame number and back
 // -> use timecode_rate_to_double() as samplerate
-// parse date, timezone
 //
 // convert between framerates
 // -> timecode_to_sample() + timecode_sample_to_time()

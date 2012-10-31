@@ -377,16 +377,16 @@ int timecode_datetime_decrement (Timecode * const dt, TimecodeRate const * const
  */
 
 void timecode_datetime_to_string (Timecode const * const tc, char *smptestring) {
-	snprintf(smptestring, 33, "%02d/%02d/%04d %02d:%02d:%02d:%02d.%03d %+03d%02d",
+	snprintf(smptestring, 33, "%02d/%02d/%04d %02d:%02d:%02d:%02d %+03d%02d",
 			tc->d.month, tc->d.day, tc->d.year,
-			tc->t.hour, tc->t.minute, tc->t.second, tc->t.frame, tc->t.subframe,
+			tc->t.hour, tc->t.minute, tc->t.second, tc->t.frame,
 			tc->d.timezone/60, abs(tc->d.timezone)%60
 			);
 }
 
 void timecode_time_to_string (TimecodeTime const * const t, char *smptestring) {
-	snprintf(smptestring, 16, "%02d:%02d:%02d:%02d.%03d",
-			t->hour, t->minute, t->second, t->frame, t->subframe);
+	snprintf(smptestring, 16, "%02d:%02d:%02d:%02d",
+			t->hour, t->minute, t->second, t->frame);
 }
 
 static const char *strrpbrk(const char * const haystack, const char * const needle) {
