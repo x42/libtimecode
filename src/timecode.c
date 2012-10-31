@@ -284,24 +284,20 @@ int timecode_time_increment(TimecodeTime * const t, TimecodeRate const * const r
 	const int fps = ceil(TCtoDbl(r));
 	t->frame++;
 
-	if (fps == t->frame) {
-		t->frame = 0;
-		t->second++;
-		if (t->second == 60) {
-			t->second = 0;
-			t->minute++;
-			if (t->minute == 60) {
-				t->minute = 0;
-				t->hour++;
-				if (t->hour==24) {
-					/* 24h wrap around */
-					rv=1;
-					t->hour = 0;
-				}
-			}
-		}
-	}
+	if (fps < t->frame) goto done;
+	t->frame = 0;
+	t->second++;
+	if (t->second < 60) goto done;
+	t->second = 0;
+	t->minute++;
+	if (t->minute < 60) goto done;
+	t->minute = 0;
+	t->hour++;
+	if (t->hour < 24) goto done;
+	t->hour = 0;
+	rv=1;
 
+done:
 	if (r->drop && (t->minute%10 != 0) && (t->second == 0) && (t->frame == 0)) {
 		t->frame += 2;
 	}
