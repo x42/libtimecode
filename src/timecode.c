@@ -36,9 +36,13 @@ double timecode_rate_to_double(TimecodeRate const * const r) {
 	return TCtoDbl(r);
 }
 
+double timecode_frames_per_timecode_frame(TimecodeRate const * const r, const double samplerate) {
+	return (samplerate / TCtoDbl(r));
+}
+
 int64_t timecode_to_sample (TimecodeTime const * const t, TimecodeRate const * const r, const double samplerate) {
-	const double fps_d = TCtoDbl(r);
-	const int    fps_i = ceil(fps_d);
+	const double  fps_d = TCtoDbl(r);
+	const int64_t fps_i = ceil(fps_d);
 	const double frames_per_timecode_frame = samplerate / fps_d;
 	int64_t sample;
 
@@ -64,8 +68,8 @@ int64_t timecode_to_sample (TimecodeTime const * const t, TimecodeRate const * c
 }
 
 void timecode_sample_to_time (TimecodeTime * const t, TimecodeRate const * const r, const double samplerate, const int64_t sample) {
-	const double fps_d = TCtoDbl(r);
-	const int    fps_i = ceil(fps_d);
+	const double  fps_d = TCtoDbl(r);
+	const int64_t fps_i = ceil(fps_d);
 
 	if (r->drop) {
 		int64_t frameNumber = floor( (double)sample * fps_d / samplerate );
@@ -92,8 +96,7 @@ void timecode_sample_to_time (TimecodeTime * const t, TimecodeRate const * const
 		double timecode_frames_fraction;
 		int64_t timecode_frames_left;
 		const double frames_per_timecode_frame = samplerate / fps_d;
-
-		int32_t frames_per_hour = (int32_t)(3600 * fps_i * frames_per_timecode_frame);
+		const int64_t frames_per_hour = (int64_t)(3600 * fps_i * frames_per_timecode_frame);
 
 		t->hour = sample / frames_per_hour;
 		double sample_d = sample % frames_per_hour;
@@ -101,16 +104,35 @@ void timecode_sample_to_time (TimecodeTime * const t, TimecodeRate const * const
 		timecode_frames_left_exact = sample_d / frames_per_timecode_frame;
 		timecode_frames_fraction = timecode_frames_left_exact - floor( timecode_frames_left_exact );
 
-		t->subframe = (int32_t) floor(timecode_frames_fraction * r->subframes);
-		//assert (t->subframe < r->subframes);
+		t->subframe = (int32_t) rint(timecode_frames_fraction * r->subframes);
 
 		timecode_frames_left = (int64_t) floor (timecode_frames_left_exact);
+
+		if (t->subframe == r->subframes) {
+			t->subframe = 0;
+			timecode_frames_left++;
+		}
 
 		t->minute = timecode_frames_left / (fps_i * 60);
 		timecode_frames_left = timecode_frames_left % (fps_i * 60);
 		t->second = timecode_frames_left / fps_i;
 		t->frame  = timecode_frames_left % fps_i;
 	}
+}
+
+int64_t timecode_to_framenumber (TimecodeTime const * const t, TimecodeRate const * const r) {
+	return timecode_to_sample(t, r, TCtoDbl(r));
+}
+
+void timecode_framenumber_to_time (TimecodeTime * const t, TimecodeRate const * const r, const int64_t frameno) {
+	timecode_sample_to_time(t, r, TCtoDbl(r), frameno);
+}
+
+void timecode_convert_rate (TimecodeTime * const t_out, TimecodeRate const * const r_out, TimecodeTime * const t_in, TimecodeRate const * const r_in) {
+	//const double rate = 84672000; // LCM(192k, 88.2k, 24, 25, 30)
+	const double rate = TCtoDbl(r_out) < TCtoDbl(r_in) ?  TCtoDbl(r_in) :  TCtoDbl(r_out);
+	int64_t s = timecode_to_sample(t_in, r_in, rate);
+	timecode_sample_to_time(t_out, r_out, rate, s);
 }
 
 /*****************************************************************************

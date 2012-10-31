@@ -116,6 +116,22 @@ const TimecodeRate tcfpsMS      = {1000, 1, 0, 1000};
 #define TCFPSMS (&tcfpsMS)
 
 /**
+ * convert rational framerate to double (r->num / r->den).
+ *
+ * @param r framerate to convert
+ * @return double representation of framerate
+ */
+double timecode_rate_to_double(TimecodeRate const * const r);
+
+/**
+ *  framerate to double (samplerate * r->num / r->den).
+ *
+ * @param r framerate to convert
+ * @return number of samples per timecode-frame.
+ */
+double timecode_frames_per_timecode_frame(TimecodeRate const * const r, const double samplerate);
+
+/**
  * convert Timecode to audio sample number
  *
  * NB. this function can also be used to convert integer milli-seconds or
@@ -148,7 +164,45 @@ int64_t timecode_to_sample (TimecodeTime const * const t, TimecodeRate const * c
 void timecode_sample_to_time (TimecodeTime * const t, TimecodeRate const * const r, const double samplerate, const int64_t sample);
 
 
-/* ADD/SUBTRACT timecodes at same framerate */
+/**
+ * convert Timecode to frame number
+ *
+ * this function simply calls \ref timecode_to_sample with the
+ * samplerate set to the fps.
+ *
+ * @param t the timecode to convert
+ * @param r framerate to use for conversion
+ * @return frame-number
+ */
+int64_t timecode_to_framenumber (TimecodeTime const * const t, TimecodeRate const * const r);
+
+/**
+ * convert video frame-number to timecode
+ *
+ * this function simply calls \ref timecode_framenumber_to_time with the
+ * samplerate set to the fps.
+ *
+ * @param t [output] the timecode that corresponds to the frame
+ * @param r framerate to use for conversion
+ * @param frameno the frame-number to convert
+ */
+void timecode_framenumber_to_time (TimecodeTime * const t, TimecodeRate const * const r, const int64_t frameno);
+
+/**
+ * convert timecode from one rate to another.
+ *
+ * Note: if t_out points to the same timecode as t_in, the timecode will be modified.
+ *
+ * @param t_out [output] timecode t_in converted to framerate r_out
+ * @param r_out framerate to convert to
+ * @param t_in the timecode to convert (may be identical to t_out)
+ * @param r_in the framerate of the timecode to convert from
+ *
+ */
+void timecode_convert_rate (TimecodeTime * const t_out, TimecodeRate const * const r_out, TimecodeTime * const t_in, TimecodeRate const * const r_in);
+
+
+/*  --- add/subtract timecodes at same framerate  --- */
 
 /**
  */
@@ -273,27 +327,11 @@ void timecode_time_to_string (TimecodeTime const * const t, char *smptestring);
  */
 void timecode_parse_time (TimecodeTime * const t, TimecodeRate const * const r, const char *val);
 
-/**
- * convert rational framerate to double (r->num/r->den).
- *
- * @param r framerate to convert
- * @return double representation of framerate
- */
-double timecode_rate_to_double(TimecodeRate const * const r);
-
-
 /* TODO, ideas */
 // parse from float sec, export to float sec
 // parse date, timezone, parse packed format "HHMMSSFF"
 // flexible time and date formatting using '%' a la printf(), strftime()
 
-// add/subtract int frames or float sec
-// convert to video frame number and back
-// -> use timecode_rate_to_double() as samplerate
-//
-// convert between framerates
-// -> timecode_to_sample() + timecode_sample_to_time()
-//
 // Bar, Beat, Tick Time (Tempo-Based Time)
 
 #ifdef __cplusplus
