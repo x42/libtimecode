@@ -108,10 +108,20 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ae09aad0b1b9b64a345fa29367fac8600"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#ae09aad0b1b9b64a345fa29367fac8600">timecode_rate_to_double</a> (<a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> const *const r)</td></tr>
+<tr class="separator:ae09aad0b1b9b64a345fa29367fac8600"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad830ed5daa9dd655e53320e1b86405f9"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#ad830ed5daa9dd655e53320e1b86405f9">timecode_frames_per_timecode_frame</a> (<a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> const *const r, const double samplerate)</td></tr>
+<tr class="separator:ad830ed5daa9dd655e53320e1b86405f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a39c27f667519855a59fbd3a61d31427a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="timecode_8h.html#a20c5e9a94aaa5a66a9f0165f027a8581">int64_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a39c27f667519855a59fbd3a61d31427a">timecode_to_sample</a> (<a class="el" href="timecode_8h.html#structTimecodeTime">TimecodeTime</a> const *const t, <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> const *const r, const double samplerate)</td></tr>
 <tr class="separator:a39c27f667519855a59fbd3a61d31427a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03f4708a76b0883cc4d3c227825604ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a03f4708a76b0883cc4d3c227825604ba">timecode_sample_to_time</a> (<a class="el" href="timecode_8h.html#structTimecodeTime">TimecodeTime</a> *const t, <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> const *const r, const double samplerate, const <a class="el" href="timecode_8h.html#a20c5e9a94aaa5a66a9f0165f027a8581">int64_t</a> sample)</td></tr>
 <tr class="separator:a03f4708a76b0883cc4d3c227825604ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab574e2a95c12ad4560900fefea713df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="timecode_8h.html#a20c5e9a94aaa5a66a9f0165f027a8581">int64_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#aab574e2a95c12ad4560900fefea713df">timecode_to_framenumber</a> (<a class="el" href="timecode_8h.html#structTimecodeTime">TimecodeTime</a> const *const t, <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> const *const r)</td></tr>
+<tr class="separator:aab574e2a95c12ad4560900fefea713df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c5be3784d3f4a61afddefa6851cb077"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a3c5be3784d3f4a61afddefa6851cb077">timecode_framenumber_to_time</a> (<a class="el" href="timecode_8h.html#structTimecodeTime">TimecodeTime</a> *const t, <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> const *const r, const <a class="el" href="timecode_8h.html#a20c5e9a94aaa5a66a9f0165f027a8581">int64_t</a> frameno)</td></tr>
+<tr class="separator:a3c5be3784d3f4a61afddefa6851cb077"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f87ad434127e6e47c59d92f92a580bb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a2f87ad434127e6e47c59d92f92a580bb">timecode_convert_rate</a> (<a class="el" href="timecode_8h.html#structTimecodeTime">TimecodeTime</a> *const t_out, <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> const *const r_out, <a class="el" href="timecode_8h.html#structTimecodeTime">TimecodeTime</a> *const t_in, <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> const *const r_in)</td></tr>
+<tr class="separator:a2f87ad434127e6e47c59d92f92a580bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4627ab112a0a07fda252509b67d65ccb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a4627ab112a0a07fda252509b67d65ccb">timecode_time_add</a> (<a class="el" href="timecode_8h.html#structTimecodeTime">TimecodeTime</a> *const res, <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> const *const r, <a class="el" href="timecode_8h.html#structTimecodeTime">TimecodeTime</a> const *const t1, <a class="el" href="timecode_8h.html#structTimecodeTime">TimecodeTime</a> const *const t2)</td></tr>
 <tr class="separator:a4627ab112a0a07fda252509b67d65ccb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47a883714aa75b60cda0722ea216cf44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a47a883714aa75b60cda0722ea216cf44">timecode_time_subtract</a> (<a class="el" href="timecode_8h.html#structTimecodeTime">TimecodeTime</a> *const res, <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> const *const r, <a class="el" href="timecode_8h.html#structTimecodeTime">TimecodeTime</a> const *const t1, <a class="el" href="timecode_8h.html#structTimecodeTime">TimecodeTime</a> const *const t2)</td></tr>
@@ -140,29 +150,39 @@ Functions</h2></td></tr>
 <tr class="separator:a50e24f07e2eae4a6543a30eb1512f054"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7da5d77f8d8685d4b04acb05935b2269"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a7da5d77f8d8685d4b04acb05935b2269">timecode_parse_time</a> (<a class="el" href="timecode_8h.html#structTimecodeTime">TimecodeTime</a> *const t, <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> const *const r, const char *val)</td></tr>
 <tr class="separator:a7da5d77f8d8685d4b04acb05935b2269"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae09aad0b1b9b64a345fa29367fac8600"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#ae09aad0b1b9b64a345fa29367fac8600">timecode_rate_to_double</a> (<a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> const *const r)</td></tr>
-<tr class="separator:ae09aad0b1b9b64a345fa29367fac8600"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a1f333785e08f396bcbd79cfe17d13149"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a1f333785e08f396bcbd79cfe17d13149">tcfps23976</a> = {24000, 1001, 0, 80}</td></tr>
+<tr class="memitem:a1f333785e08f396bcbd79cfe17d13149"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a1f333785e08f396bcbd79cfe17d13149">tcfps23976</a> = { 24000, 1001, 0, 80}</td></tr>
 <tr class="separator:a1f333785e08f396bcbd79cfe17d13149"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf4ef3896cbfd0102a51bd304912d444"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#acf4ef3896cbfd0102a51bd304912d444">tcfps24</a> = {24, 1, 0, 100}</td></tr>
+<tr class="memitem:acf4ef3896cbfd0102a51bd304912d444"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#acf4ef3896cbfd0102a51bd304912d444">tcfps24</a> = { 24, 1, 0, 80}</td></tr>
 <tr class="separator:acf4ef3896cbfd0102a51bd304912d444"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb97752c55ff8183526ec767d042657e"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#acb97752c55ff8183526ec767d042657e">tcfps24976</a> = {25000, 1001, 0, 80}</td></tr>
+<tr class="memitem:acb97752c55ff8183526ec767d042657e"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#acb97752c55ff8183526ec767d042657e">tcfps24976</a> = { 25000, 1001, 0, 80}</td></tr>
 <tr class="separator:acb97752c55ff8183526ec767d042657e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02ce848da68ec4bb500c3a6aaa99ca0e"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a02ce848da68ec4bb500c3a6aaa99ca0e">tcfps25</a> = {25, 1, 0, 80}</td></tr>
+<tr class="memitem:a02ce848da68ec4bb500c3a6aaa99ca0e"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a02ce848da68ec4bb500c3a6aaa99ca0e">tcfps25</a> = { 25, 1, 0, 80}</td></tr>
 <tr class="separator:a02ce848da68ec4bb500c3a6aaa99ca0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4d329526ae636ef2627386010c77532"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#af4d329526ae636ef2627386010c77532">tcfps2997ndf</a> = {30000, 1001, 0, 100}</td></tr>
+<tr class="memitem:af4d329526ae636ef2627386010c77532"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#af4d329526ae636ef2627386010c77532">tcfps2997ndf</a> = { 30000, 1001, 0, 80}</td></tr>
 <tr class="separator:af4d329526ae636ef2627386010c77532"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72ef14735960a7faf971d1e3aadbae8c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a72ef14735960a7faf971d1e3aadbae8c">tcfps2997df</a> = {30000, 1001, 1, 100}</td></tr>
+<tr class="memitem:a72ef14735960a7faf971d1e3aadbae8c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a72ef14735960a7faf971d1e3aadbae8c">tcfps2997df</a> = { 30000, 1001, 1, 80}</td></tr>
 <tr class="separator:a72ef14735960a7faf971d1e3aadbae8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac289e27b0faf0c76540498b286efd23c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#ac289e27b0faf0c76540498b286efd23c">tcfps2997xdf</a> = {30*999, 1000, 1, 100}</td></tr>
-<tr class="separator:ac289e27b0faf0c76540498b286efd23c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1aaf974d5f898ece9f3fdb4bcad7786d"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a1aaf974d5f898ece9f3fdb4bcad7786d">tcfps30</a> = {30, 1, 0, 80}</td></tr>
+<tr class="memitem:a1aaf974d5f898ece9f3fdb4bcad7786d"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a1aaf974d5f898ece9f3fdb4bcad7786d">tcfps30</a> = { 30, 1, 0, 80}</td></tr>
 <tr class="separator:a1aaf974d5f898ece9f3fdb4bcad7786d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07bbd2127c01d374687fe03b49538117"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a07bbd2127c01d374687fe03b49538117">tcfpsMS</a> = {1000, 1, 0, 1000}</td></tr>
+<tr class="memitem:a234120595c2924f928d066c5640e336a"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a234120595c2924f928d066c5640e336a">tcfps30df</a> = { 30, 1, 1, 80}</td></tr>
+<tr class="separator:a234120595c2924f928d066c5640e336a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb836b7ba68e5d715054096d96c56c84"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#afb836b7ba68e5d715054096d96c56c84">tcfps5994</a> = { 60000, 1001, 0, 80}</td></tr>
+<tr class="separator:afb836b7ba68e5d715054096d96c56c84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20e3e7e4a1a8e74ee6fa116106992289"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a20e3e7e4a1a8e74ee6fa116106992289">tcfps60</a> = { 30, 1, 0, 80}</td></tr>
+<tr class="separator:a20e3e7e4a1a8e74ee6fa116106992289"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4b6463227397921f8c998961d83765c"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#ac4b6463227397921f8c998961d83765c">tcfpsDS</a> = { 10, 1, 0, 1000}</td></tr>
+<tr class="separator:ac4b6463227397921f8c998961d83765c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd459256c59b375cd63c715553062164"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#acd459256c59b375cd63c715553062164">tcfpsCS</a> = { 100, 1, 0, 1000}</td></tr>
+<tr class="separator:acd459256c59b375cd63c715553062164"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a07bbd2127c01d374687fe03b49538117"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a07bbd2127c01d374687fe03b49538117">tcfpsMS</a> = { 1000, 1, 0, 1000}</td></tr>
 <tr class="separator:a07bbd2127c01d374687fe03b49538117"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fd224f24929c77c194324c80ca7adff"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a0fd224f24929c77c194324c80ca7adff">tcfpsUS</a> = { 1000000, 1, 0, 1}</td></tr>
+<tr class="separator:a0fd224f24929c77c194324c80ca7adff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a226de759d8150ba03043652bb87c9fb2"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="timecode_8h.html#a226de759d8150ba03043652bb87c9fb2">tcfpsNS</a> = {1000000000, 1, 0, 1}</td></tr>
+<tr class="separator:a226de759d8150ba03043652bb87c9fb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>libtimecode - convert A/V timecode and framerate </p>
@@ -267,7 +287,7 @@ year A.D. 4 digits </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<div class="textblock"><p>define a framerate </p>
+<div class="textblock"><p>define a frame rate </p>
 </div><table class="fieldtable">
 <tr><th colspan="3">Data Fields</th></tr>
 <tr><td class="fieldtype">
@@ -471,7 +491,7 @@ timecode HH:MM:SS:FF.SSS </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>define a framerate </p>
+<p>define a frame rate </p>
 
 </div>
 </div>
@@ -489,6 +509,55 @@ timecode HH:MM:SS:FF.SSS </td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="a2f87ad434127e6e47c59d92f92a580bb"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void timecode_convert_rate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="timecode_8h.html#structTimecodeTime">TimecodeTime</a> *const&#160;</td>
+          <td class="paramname"><em>t_out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> const *const&#160;</td>
+          <td class="paramname"><em>r_out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="timecode_8h.html#structTimecodeTime">TimecodeTime</a> *const&#160;</td>
+          <td class="paramname"><em>t_in</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> const *const&#160;</td>
+          <td class="paramname"><em>r_in</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>convert timecode from one rate to another.</p>
+<p>Note: if t_out points to the same timecode as t_in, the timecode will be modified.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t_out</td><td>[output] timecode t_in converted to frame rate r_out </td></tr>
+    <tr><td class="paramname">r_out</td><td>frame rate to convert to </td></tr>
+    <tr><td class="paramname">t_in</td><td>the timecode to convert (may be identical to t_out) </td></tr>
+    <tr><td class="paramname">r_in</td><td>the frame rate of the timecode to convert from </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="aba326680b4375203a51a574f6074bfc7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -603,9 +672,9 @@ timecode HH:MM:SS:FF.SSS </td></tr>
 <p>This function is a wrapper around <a class="el" href="timecode_8h.html#a75a823eb1233eff619c36a96a5cbe161">timecode_time_compare</a> and <a class="el" href="timecode_8h.html#aba326680b4375203a51a574f6074bfc7">timecode_date_compare</a> it includes additional functionality to handle timezones correctly.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">r</td><td>framerate to use for both a and b </td></tr>
-    <tr><td class="paramname">a</td><td><a class="el" href="timecode_8h.html#structTimecode">Timecode</a> to compare (using framerate r) </td></tr>
-    <tr><td class="paramname">b</td><td><a class="el" href="timecode_8h.html#structTimecode">Timecode</a> to compare (using framerate r) </td></tr>
+    <tr><td class="paramname">r</td><td>frame rate to use for both a and b </td></tr>
+    <tr><td class="paramname">a</td><td><a class="el" href="timecode_8h.html#structTimecode">Timecode</a> to compare (using frame rate r) </td></tr>
+    <tr><td class="paramname">b</td><td><a class="el" href="timecode_8h.html#structTimecode">Timecode</a> to compare (using frame rate r) </td></tr>
   </table>
   </dd>
 </dl>
@@ -640,7 +709,7 @@ timecode HH:MM:SS:FF.SSS </td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dt</td><td>the datetime to modify </td></tr>
-    <tr><td class="paramname">r</td><td>framerate to use </td></tr>
+    <tr><td class="paramname">r</td><td>frame rate to use </td></tr>
   </table>
   </dd>
 </dl>
@@ -675,7 +744,7 @@ timecode HH:MM:SS:FF.SSS </td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">dt</td><td>the datetime to modify </td></tr>
-    <tr><td class="paramname">r</td><td>framerate to use </td></tr>
+    <tr><td class="paramname">r</td><td>frame rate to use </td></tr>
   </table>
   </dd>
 </dl>
@@ -706,14 +775,91 @@ timecode HH:MM:SS:FF.SSS </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>format timecode as string "MM/DD/YYYY HH:MM:SS:FF.SSS +TZMM" </p>
+<p>format timecode as string "MM/DD/YYYY HH:MM:SS:FF +TZMM" </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">tc</td><td>the datetime to print </td></tr>
-    <tr><td class="paramname">smptestring</td><td>[output] length of smptestring: 33 bytes (incl terminating zero) </td></tr>
+    <tr><td class="paramname">smptestring</td><td>[output] length of smptestring: 29 bytes (incl terminating zero) </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="a3c5be3784d3f4a61afddefa6851cb077"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void timecode_framenumber_to_time </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="timecode_8h.html#structTimecodeTime">TimecodeTime</a> *const&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> const *const&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="timecode_8h.html#a20c5e9a94aaa5a66a9f0165f027a8581">int64_t</a>&#160;</td>
+          <td class="paramname"><em>frameno</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>convert video frame-number to timecode</p>
+<p>this function simply calls <a class="el" href="timecode_8h.html#a3c5be3784d3f4a61afddefa6851cb077">timecode_framenumber_to_time</a> with the sample rate set to the fps.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t</td><td>[output] the timecode that corresponds to the frame </td></tr>
+    <tr><td class="paramname">r</td><td>frame rate to use for conversion </td></tr>
+    <tr><td class="paramname">frameno</td><td>the frame-number to convert </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ad830ed5daa9dd655e53320e1b86405f9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double timecode_frames_per_timecode_frame </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> const *const&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>samplerate</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>calculate samples per timecode-frame for a given sample rate: (samplerate * r-&gt;num / r-&gt;den).</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">r</td><td>frame rate to convert </td></tr>
+    <tr><td class="paramname">samplerate</td><td>the sampling rate </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>number of samples per timecode-frame. </dd></dl>
 
 </div>
 </div>
@@ -750,7 +896,7 @@ timecode HH:MM:SS:FF.SSS </td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t</td><td>[output] the parsed timecode </td></tr>
-    <tr><td class="paramname">r</td><td>framerate to use </td></tr>
+    <tr><td class="paramname">r</td><td>frame rate to use </td></tr>
     <tr><td class="paramname">val</td><td>the value to parse </td></tr>
   </table>
   </dd>
@@ -771,14 +917,14 @@ timecode HH:MM:SS:FF.SSS </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>convert rational framerate to double (r-&gt;num/r-&gt;den).</p>
+<p>convert rational frame rate to double (r-&gt;num / r-&gt;den).</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">r</td><td>framerate to convert </td></tr>
+    <tr><td class="paramname">r</td><td>frame rate to convert </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>double representation of framerate </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>double representation of frame rate </dd></dl>
 
 </div>
 </div>
@@ -818,13 +964,13 @@ timecode HH:MM:SS:FF.SSS </td></tr>
       </table>
 </div><div class="memdoc">
 <p>convert audio sample number to timecode</p>
-<p>NB. this function can also be used to convert integer milli-seconds or micro-seconds by specifying a samplerate of 1000 or 10^6 respectively.</p>
+<p>NB. this function can also be used to convert integer milli-seconds or micro-seconds by specifying a sample rate of 1000 or 10^6 respectively.</p>
 <p>When used with samplerate == <a class="el" href="timecode_8h.html#ae09aad0b1b9b64a345fa29367fac8600">timecode_rate_to_double</a> this function can also convert video-frame number to timecode.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t</td><td>[output] the timecode that corresponds to the sample </td></tr>
-    <tr><td class="paramname">r</td><td>framerate to use for conversion </td></tr>
-    <tr><td class="paramname">samplerate</td><td>the sample-rate the sample was taken at </td></tr>
+    <tr><td class="paramname">r</td><td>frame rate to use for conversion </td></tr>
+    <tr><td class="paramname">samplerate</td><td>the sample rate the sample was taken at </td></tr>
     <tr><td class="paramname">sample</td><td>the audio sample number to convert </td></tr>
   </table>
   </dd>
@@ -902,9 +1048,9 @@ timecode HH:MM:SS:FF.SSS </td></tr>
 <p>The <a class="el" href="timecode_8h.html#a75a823eb1233eff619c36a96a5cbe161">timecode_time_compare()</a> function compares the two timecodes a and b. It returns an integer less than, equal to, or greater than zero if a is found, respectively, to be later than, to match, or be earlier than b.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">r</td><td>framerate to use for both a and b </td></tr>
-    <tr><td class="paramname">a</td><td><a class="el" href="timecode_8h.html#structTimecode">Timecode</a> to compare (using framerate r) </td></tr>
-    <tr><td class="paramname">b</td><td><a class="el" href="timecode_8h.html#structTimecode">Timecode</a> to compare (using framerate r) </td></tr>
+    <tr><td class="paramname">r</td><td>frame rate to use for both a and b </td></tr>
+    <tr><td class="paramname">a</td><td><a class="el" href="timecode_8h.html#structTimecode">Timecode</a> to compare (using frame rate r) </td></tr>
+    <tr><td class="paramname">b</td><td><a class="el" href="timecode_8h.html#structTimecode">Timecode</a> to compare (using frame rate r) </td></tr>
   </table>
   </dd>
 </dl>
@@ -939,7 +1085,7 @@ timecode HH:MM:SS:FF.SSS </td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t</td><td>the timecode to modify </td></tr>
-    <tr><td class="paramname">r</td><td>framerate to use </td></tr>
+    <tr><td class="paramname">r</td><td>frame rate to use </td></tr>
   </table>
   </dd>
 </dl>
@@ -974,7 +1120,7 @@ timecode HH:MM:SS:FF.SSS </td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t</td><td>the timecode to modify </td></tr>
-    <tr><td class="paramname">r</td><td>framerate to use </td></tr>
+    <tr><td class="paramname">r</td><td>frame rate to use </td></tr>
   </table>
   </dd>
 </dl>
@@ -1043,14 +1189,50 @@ timecode HH:MM:SS:FF.SSS </td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>format timecode as string "HH:MM:SS:FF.SSS" </p>
+<p>format timecode as string "HH:MM:SS:FF" </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t</td><td>the timecode to print </td></tr>
-    <tr><td class="paramname">smptestring</td><td>[output] length of smptestring: 16 bytes (incl terminating zero) </td></tr>
+    <tr><td class="paramname">smptestring</td><td>[output] length of smptestring: 12 bytes (incl terminating zero) </td></tr>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="aab574e2a95c12ad4560900fefea713df"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="timecode_8h.html#a20c5e9a94aaa5a66a9f0165f027a8581">int64_t</a> timecode_to_framenumber </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="timecode_8h.html#structTimecodeTime">TimecodeTime</a> const *const&#160;</td>
+          <td class="paramname"><em>t</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> const *const&#160;</td>
+          <td class="paramname"><em>r</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>convert <a class="el" href="timecode_8h.html#structTimecode">Timecode</a> to frame number</p>
+<p>this function simply calls <a class="el" href="timecode_8h.html#a39c27f667519855a59fbd3a61d31427a">timecode_to_sample</a> with the samplerate set to the fps.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t</td><td>the timecode to convert </td></tr>
+    <tr><td class="paramname">r</td><td>frame rate to use for conversion </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>frame-number </dd></dl>
 
 </div>
 </div>
@@ -1084,13 +1266,13 @@ timecode HH:MM:SS:FF.SSS </td></tr>
       </table>
 </div><div class="memdoc">
 <p>convert <a class="el" href="timecode_8h.html#structTimecode">Timecode</a> to audio sample number</p>
-<p>NB. this function can also be used to convert integer milli-seconds or micro-seconds by specifying a samplerate of 1000 or 10^6 respectively.</p>
+<p>NB. this function can also be used to convert integer milli-seconds or micro-seconds by specifying a sample rate of 1000 or 10^6 respectively.</p>
 <p>When used with samplerate == <a class="el" href="timecode_8h.html#ae09aad0b1b9b64a345fa29367fac8600">timecode_rate_to_double</a> this function can also convert timecode to video-frame number.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t</td><td>the timecode to convert </td></tr>
-    <tr><td class="paramname">r</td><td>framerate to use for conversion </td></tr>
-    <tr><td class="paramname">samplerate</td><td>the sample-rate the sample was taken at </td></tr>
+    <tr><td class="paramname">r</td><td>frame rate to use for conversion </td></tr>
+    <tr><td class="paramname">samplerate</td><td>the sample rate the sample was taken at </td></tr>
   </table>
   </dd>
 </dl>
@@ -1104,7 +1286,7 @@ timecode HH:MM:SS:FF.SSS </td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfps23976 = {24000, 1001, 0, 80}</td>
+          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfps23976 = { 24000, 1001, 0, 80}</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1116,7 +1298,7 @@ timecode HH:MM:SS:FF.SSS </td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfps24 = {24, 1, 0, 100}</td>
+          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfps24 = { 24, 1, 0, 80}</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1128,7 +1310,7 @@ timecode HH:MM:SS:FF.SSS </td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfps24976 = {25000, 1001, 0, 80}</td>
+          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfps24976 = { 25000, 1001, 0, 80}</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1140,7 +1322,7 @@ timecode HH:MM:SS:FF.SSS </td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfps25 = {25, 1, 0, 80}</td>
+          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfps25 = { 25, 1, 0, 80}</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1152,7 +1334,7 @@ timecode HH:MM:SS:FF.SSS </td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfps2997df = {30000, 1001, 1, 100}</td>
+          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfps2997df = { 30000, 1001, 1, 80}</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1164,19 +1346,7 @@ timecode HH:MM:SS:FF.SSS </td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfps2997ndf = {30000, 1001, 0, 100}</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a class="anchor" id="ac289e27b0faf0c76540498b286efd23c"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfps2997xdf = {30*999, 1000, 1, 100}</td>
+          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfps2997ndf = { 30000, 1001, 0, 80}</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1188,7 +1358,67 @@ timecode HH:MM:SS:FF.SSS </td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfps30 = {30, 1, 0, 80}</td>
+          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfps30 = { 30, 1, 0, 80}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a234120595c2924f928d066c5640e336a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfps30df = { 30, 1, 1, 80}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="afb836b7ba68e5d715054096d96c56c84"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfps5994 = { 60000, 1001, 0, 80}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a20e3e7e4a1a8e74ee6fa116106992289"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfps60 = { 30, 1, 0, 80}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="acd459256c59b375cd63c715553062164"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfpsCS = { 100, 1, 0, 1000}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="ac4b6463227397921f8c998961d83765c"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfpsDS = { 10, 1, 0, 1000}</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1200,7 +1430,31 @@ timecode HH:MM:SS:FF.SSS </td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfpsMS = {1000, 1, 0, 1000}</td>
+          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfpsMS = { 1000, 1, 0, 1000}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a226de759d8150ba03043652bb87c9fb2"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfpsNS = {1000000000, 1, 0, 1}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a class="anchor" id="a0fd224f24929c77c194324c80ca7adff"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="timecode_8h.html#structTimecodeRate">TimecodeRate</a> tcfpsUS = { 1000000, 1, 0, 1}</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1210,7 +1464,7 @@ timecode HH:MM:SS:FF.SSS </td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Oct 31 2012 02:32:44 for libtimecode by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Nov 1 2012 03:45:43 for libtimecode by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.2
 </small></address>
