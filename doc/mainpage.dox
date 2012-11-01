@@ -3,7 +3,7 @@
  */
 
 /**
-@mainpage Timecode Framerate Library
+@mainpage POSIX-C Library for handling Audio/Video Timecode and Framerate.
 
 <b> WORK IN PROGRESS </b> (Oct/31/2012)
 
@@ -31,20 +31,26 @@
  Consult \ref timecode.h for a detailed reference of available functions.
  The documentation is also available as Unix manual pages.
 
+ Test and example code is to-be-done. Stay tuned.
+
 @section about Q&A
 
 <dl>
  <dt>How can I get help?</dt>
  <dd>
   The preferred way is to use the issue-tracker at https://github.com/x42/libtimecode/issues .
-  You can also send a private-mail to the authors.
+  You can also send a private-mail to the author.
  </dd>
 
 @section references References
 <ul>
  <li><a href="https://github.com/x42/libltc/">libLTC GitHub Project Page</a></li>
- <li><a href="https://sourceforge.net/projects/ltcsmpte/">libLTCSMPTE Sourceforge Project Page</a></li>
+ <li><a href="https://sourceforge.net/projects/ltcsmpte/">libLTCSMPTE Sourceforge Project Page</a> (predecessor of libtimecode)</li>
  <li><a href="http://en.wikipedia.org/wiki/SMPTE_timecode">Wikipedia Page on SMPTE</a></li>
+ <li><a href="http://www.lurkertech.com/lg/timecode/#numberingscheme">Timecode as a Numbering Scheme</a></li>
+ <li><a href="http://www.lurkertech.com/lg/video-systems/#rate">Video Systems Frame Rate</a></li>
+ <li><a href="http://www.evertz.com/resources/The-Right-Time.pdf">The Right Time</a> - supplementing resources to everts products.</li>
+ <li><a href="http://www.poynton.com/notes/video/Timecode/">Technical Introduction to Timecode</a></li>
 </ul>
 
 @section license License
