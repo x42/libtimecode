@@ -358,12 +358,14 @@ int timecode_datetime_compare (TimecodeRate const * const r, Timecode const * co
  * @param d the date to adjust
  */
 void timecode_date_increment(TimecodeDate * const d);
+
 /**
  * decrement date by one day.
  * Note: this function honors leap-years.
  * @param d the date to adjust
  */
 void timecode_date_decrement (TimecodeDate * const d);
+
 /**
  * increment timecode by one frame.
  * @param t the timecode to modify
@@ -371,6 +373,7 @@ void timecode_date_decrement (TimecodeDate * const d);
  * @return 1 if timecode wrapped 24 hours, 0 otherwise
  */
 int timecode_time_increment(TimecodeTime * const t, TimecodeRate const * const r);
+
 /**
  * decrement timecode by one frame.
  * @param t the timecode to modify
@@ -378,6 +381,7 @@ int timecode_time_increment(TimecodeTime * const t, TimecodeRate const * const r
  * @return 1 if timecode wrapped 24 hours, 0 otherwise
  */
 int timecode_time_decrement(TimecodeTime * const t, TimecodeRate const * const r);
+
 /**
  * increment datetime by one frame
  * this is a wrapper function around \ref timecode_date_increment and
@@ -387,6 +391,7 @@ int timecode_time_decrement(TimecodeTime * const t, TimecodeRate const * const r
  * @return 1 if timecode wrapped 24 hours, 0 otherwise
  */
 int timecode_datetime_increment (Timecode * const dt, TimecodeRate const * const r);
+
 /**
  * increment datetime by one frame
  * this is a wrapper function around \ref timecode_date_increment and
