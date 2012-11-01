@@ -419,16 +419,16 @@ int timecode_time_decrement(TimecodeTime * const t, TimecodeRate const * const r
 	return 1;
 }
 
-int timecode_datetime_increment (Timecode * const dt, TimecodeRate const * const r) {
-	if (timecode_time_increment(&dt->t, r)) {
+int timecode_datetime_increment (Timecode * const dt) {
+	if (timecode_time_increment(&dt->t, &dt->r)) {
 		timecode_date_increment(&dt->d);
 		return 1;
 	}
 	return 0;
 }
 
-int timecode_datetime_decrement (Timecode * const dt, TimecodeRate const * const r) {
-	if (timecode_time_decrement(&dt->t, r)) {
+int timecode_datetime_decrement (Timecode * const dt) {
+	if (timecode_time_decrement(&dt->t, &dt->r)) {
 		timecode_date_decrement(&dt->d);
 		return 1;
 	}

@@ -86,12 +86,12 @@ typedef struct TimecodeRate {
 } TimecodeRate;
 
 /**
- * complete datetime description
+ * complete date time description incl frame rate
  */
 typedef struct Timecode {
 	TimecodeTime t; ///< timecode HH:MM:SS:FF.SSS
 	TimecodeDate d; ///< date MM/DD/YYYY + Timezone
-	//TimecodeRate r; /* XXX ?? might come in handy here ?? */
+	TimecodeRate r; ///< the frame rate used for TimecodeTime
 } Timecode;
 
 
@@ -149,7 +149,7 @@ double timecode_frames_per_timecode_frame(TimecodeRate const * const r, const do
 /*  --- timecode <> sample,frame-number  --- */
 
 /**
- * convert Timecode to audio sample number
+ * convert timecode to audio sample number
  *
  * NB. this function can also be used to convert integer milli-seconds or
  * micro-seconds by specifying a sample rate of 1000 or 10^6 respectively.
@@ -182,7 +182,7 @@ void timecode_sample_to_time (TimecodeTime * const t, TimecodeRate const * const
 
 
 /**
- * convert Timecode to frame number
+ * convert timecode to frame number
  *
  * this function simply calls \ref timecode_to_sample with the
  * samplerate set to the fps.
@@ -317,8 +317,8 @@ void timecode_time_subtract (TimecodeTime * const res, TimecodeRate const * cons
  * found, respectively, to be later than, to match, or be earlier than b.
  *
  * @param r frame rate to use for both a and b
- * @param a Timecode to compare (using frame rate r)
- * @param b Timecode to compare (using frame rate r)
+ * @param a timecode to compare (using frame rate r)
+ * @param b timecode to compare (using frame rate r)
  * @return +1 if a is later than b, -1 if a is earlier than b, 0 if timecodes are equal
  */
 int timecode_time_compare (TimecodeRate const * const r, TimecodeTime const * const a, TimecodeTime const * const b);
@@ -343,8 +343,8 @@ int timecode_date_compare (TimecodeDate const * const a, TimecodeDate const * co
  * it includes additional functionality to handle timezones correctly.
  *
  * @param r frame rate to use for both a and b
- * @param a Timecode to compare (using frame rate r)
- * @param b Timecode to compare (using frame rate r)
+ * @param a timecode to compare (using frame rate r)
+ * @param b timecode to compare (using frame rate r)
  * @return +1 if a is later than b, -1 if a is earlier than b, 0 if timecodes are equal
  */
 int timecode_datetime_compare (TimecodeRate const * const r, Timecode const * const a, Timecode const * const b);
@@ -387,20 +387,18 @@ int timecode_time_decrement(TimecodeTime * const t, TimecodeRate const * const r
  * this is a wrapper function around \ref timecode_date_increment and
  * \ref timecode_time_increment
  * @param dt the datetime to modify
- * @param r frame rate to use
  * @return 1 if timecode wrapped 24 hours, 0 otherwise
  */
-int timecode_datetime_increment (Timecode * const dt, TimecodeRate const * const r);
+int timecode_datetime_increment (Timecode * const dt);
 
 /**
  * increment datetime by one frame
  * this is a wrapper function around \ref timecode_date_increment and
  * \ref timecode_time_increment
  * @param dt the datetime to modify
- * @param r frame rate to use
  * @return 1 if timecode wrapped 24 hours, 0 otherwise
  */
-int timecode_datetime_decrement (Timecode * const dt, TimecodeRate const * const r);
+int timecode_datetime_decrement (Timecode * const dt);
 
 
 /*  --- parse from string, export to string  --- */
