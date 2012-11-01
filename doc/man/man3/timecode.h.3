@@ -97,6 +97,24 @@ libtimecode - convert A/V timecode and framerate
 .RI "void \fBtimecode_convert_rate\fP (\fBTimecodeTime\fP *const t_out, \fBTimecodeRate\fP const *const r_out, \fBTimecodeTime\fP *const t_in, \fBTimecodeRate\fP const *const r_in)"
 .br
 .ti -1c
+.RI "double \fBtimecode_sample_to_seconds\fP (const \fBint64_t\fP sample, double samplerate)"
+.br
+.ti -1c
+.RI "\fBint64_t\fP \fBtimecode_seconds_to_sample\fP (const double sec, double samplerate)"
+.br
+.ti -1c
+.RI "double \fBtimecode_framenumber_to_seconds\fP (const \fBint64_t\fP frameno, \fBTimecodeRate\fP const *const r)"
+.br
+.ti -1c
+.RI "\fBint64_t\fP \fBtimecode_seconds_to_framenumber\fP (const double sec, \fBTimecodeRate\fP const *const r)"
+.br
+.ti -1c
+.RI "void \fBtimecode_seconds_to_time\fP (\fBTimecodeTime\fP *const t, \fBTimecodeRate\fP const *const r, const double sec)"
+.br
+.ti -1c
+.RI "double \fBtimecode_to_sec\fP (\fBTimecodeTime\fP const *const t, \fBTimecodeRate\fP const *const r)"
+.br
+.ti -1c
 .RI "void \fBtimecode_time_add\fP (\fBTimecodeTime\fP *const res, \fBTimecodeRate\fP const *const r, \fBTimecodeTime\fP const *const t1, \fBTimecodeTime\fP const *const t2)"
 .br
 .ti -1c
@@ -124,16 +142,19 @@ libtimecode - convert A/V timecode and framerate
 .RI "int \fBtimecode_time_decrement\fP (\fBTimecodeTime\fP *const t, \fBTimecodeRate\fP const *const r)"
 .br
 .ti -1c
-.RI "int \fBtimecode_datetime_increment\fP (\fBTimecode\fP *const dt, \fBTimecodeRate\fP const *const r)"
+.RI "int \fBtimecode_datetime_increment\fP (\fBTimecode\fP *const dt)"
 .br
 .ti -1c
-.RI "int \fBtimecode_datetime_decrement\fP (\fBTimecode\fP *const dt, \fBTimecodeRate\fP const *const r)"
+.RI "int \fBtimecode_datetime_decrement\fP (\fBTimecode\fP *const dt)"
 .br
 .ti -1c
-.RI "void \fBtimecode_datetime_to_string\fP (\fBTimecode\fP const *const tc, char *smptestring)"
+.RI "void \fBtimecode_time_to_string\fP (char *smptestring, \fBTimecodeTime\fP const *const t)"
 .br
 .ti -1c
-.RI "void \fBtimecode_time_to_string\fP (\fBTimecodeTime\fP const *const t, char *smptestring)"
+.RI "size_t \fBtimecode_strftimecode\fP (char *str, const size_t maxsize, const char *format, const \fBTimecode\fP const *const t)"
+.br
+.ti -1c
+.RI "size_t \fBtimecode_strftime\fP (char *str, const size_t maxsize, const char *format, const \fBTimecodeTime\fP const *const t, const \fBTimecodeRate\fP const *const r)"
 .br
 .ti -1c
 .RI "void \fBtimecode_parse_time\fP (\fBTimecodeTime\fP *const t, \fBTimecodeRate\fP const *const r, const char *val)"
@@ -158,10 +179,7 @@ libtimecode - convert A/V timecode and framerate
 .RI "const \fBTimecodeRate\fP \fBtcfps2997ndf\fP = { 30000, 1001, 0, 80}"
 .br
 .ti -1c
-.RI "const \fBTimecodeRate\fP \fBtcfps30Mdf\fP = { 30000, 1001, 1, 80}"
-.br
-.ti -1c
-.RI "const \fBTimecodeRate\fP \fBtcfps2997df\fP = {30*999, 1000, 1, 80}"
+.RI "const \fBTimecodeRate\fP \fBtcfps2997df\fP = { 30000, 1001, 1, 80}"
 .br
 .ti -1c
 .RI "const \fBTimecodeRate\fP \fBtcfps30\fP = { 30, 1, 0, 80}"
@@ -274,11 +292,14 @@ int \fIdrop\fP 1: use drop-frame timecode (only valid for 2997/100)
 .PP
 .SH "struct Timecode"
 .PP 
-complete datetime description 
+complete date time description incl frame rate 
 .PP
 \fBData Fields:\fP
 .RS 4
 \fBTimecodeDate\fP \fId\fP date MM/DD/YYYY + Timezone 
+.br
+.PP
+\fBTimecodeRate\fP \fIr\fP the frame rate used for \fBTimecodeTime\fP 
 .br
 .PP
 \fBTimecodeTime\fP \fIt\fP timecode HH:MM:SS:FF\&.SSS 
@@ -309,7 +330,7 @@ complete datetime description
 .SS "typedef long long int \fBint64_t\fP"
 
 .SS "typedef struct \fBTimecode\fP  \fBTimecode\fP"
-complete datetime description 
+complete date time description incl frame rate 
 .SS "typedef struct \fBTimecodeDate\fP  \fBTimecodeDate\fP"
 date and timezone 
 .SS "typedef struct \fBTimecodeRate\fP  \fBTimecodeRate\fP"
@@ -378,9 +399,9 @@ This function is a wrapper around \fBtimecode_time_compare\fP and \fBtimecode_da
 .RS 4
 \fIr\fP frame rate to use for both a and b 
 .br
-\fIa\fP \fBTimecode\fP to compare (using frame rate r) 
+\fIa\fP timecode to compare (using frame rate r) 
 .br
-\fIb\fP \fBTimecode\fP to compare (using frame rate r) 
+\fIb\fP timecode to compare (using frame rate r) 
 .RE
 .PP
 \fBReturns:\fP
@@ -389,14 +410,12 @@ This function is a wrapper around \fBtimecode_time_compare\fP and \fBtimecode_da
 .RE
 .PP
 
-.SS "int timecode_datetime_decrement (\fBTimecode\fP *const dt, \fBTimecodeRate\fP const *const r)"
+.SS "int timecode_datetime_decrement (\fBTimecode\fP *const dt)"
 increment datetime by one frame this is a wrapper function around \fBtimecode_date_increment\fP and \fBtimecode_time_increment\fP 
 .PP
 \fBParameters:\fP
 .RS 4
 \fIdt\fP the datetime to modify 
-.br
-\fIr\fP frame rate to use 
 .RE
 .PP
 \fBReturns:\fP
@@ -405,14 +424,12 @@ increment datetime by one frame this is a wrapper function around \fBtimecode_da
 .RE
 .PP
 
-.SS "int timecode_datetime_increment (\fBTimecode\fP *const dt, \fBTimecodeRate\fP const *const r)"
+.SS "int timecode_datetime_increment (\fBTimecode\fP *const dt)"
 increment datetime by one frame this is a wrapper function around \fBtimecode_date_increment\fP and \fBtimecode_time_increment\fP 
 .PP
 \fBParameters:\fP
 .RS 4
 \fIdt\fP the datetime to modify 
-.br
-\fIr\fP frame rate to use 
 .RE
 .PP
 \fBReturns:\fP
@@ -421,14 +438,19 @@ increment datetime by one frame this is a wrapper function around \fBtimecode_da
 .RE
 .PP
 
-.SS "void timecode_datetime_to_string (\fBTimecode\fP const *const tc, char * smptestring)"
-format timecode as string 'MM/DD/YYYY HH:MM:SS:FF +TZMM' 
+.SS "double timecode_framenumber_to_seconds (const \fBint64_t\fP frameno, \fBTimecodeRate\fP const *const r)"
+convert frame number to floating point seconds
 .PP
 \fBParameters:\fP
 .RS 4
-\fItc\fP the datetime to print 
+\fIframeno\fP frame number (starting at zero) 
 .br
-\fIsmptestring\fP [output] length of smptestring: 29 bytes (incl terminating zero) 
+\fIr\fP frame rate 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+seconds 
 .RE
 .PP
 
@@ -490,6 +512,22 @@ double representation of frame rate
 .RE
 .PP
 
+.SS "double timecode_sample_to_seconds (const \fBint64_t\fP sample, double samplerate)"
+convert sample number to floating point seconds
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsample\fP sample number (starting at zero) 
+.br
+\fIsamplerate\fP sample rate 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+seconds 
+.RE
+.PP
+
 .SS "void timecode_sample_to_time (\fBTimecodeTime\fP *const t, \fBTimecodeRate\fP const *const r, const double samplerate, const \fBint64_t\fP sample)"
 convert audio sample number to timecode
 .PP
@@ -509,7 +547,113 @@ When used with samplerate == \fBtimecode_rate_to_double\fP this function can als
 .RE
 .PP
 
+.SS "\fBint64_t\fP timecode_seconds_to_framenumber (const double sec, \fBTimecodeRate\fP const *const r)"
+convert floating-point seconds to timecode frame number at given frame rate\&. Opposed to \fBtimecode_seconds_to_sample\fP which rounds the sample number to the nearest sample, this function always rounds down to the current frame\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsec\fP seconds 
+.br
+\fIr\fP frame rate 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+sample number (starting at zero) 
+.RE
+.PP
+
+.SS "\fBint64_t\fP timecode_seconds_to_sample (const double sec, double samplerate)"
+convert floating-point seconds to nearest sample number at given sample rate\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsec\fP seconds 
+.br
+\fIsamplerate\fP sample rate 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+sample number (starting at zero) 
+.RE
+.PP
+
+.SS "void timecode_seconds_to_time (\fBTimecodeTime\fP *const t, \fBTimecodeRate\fP const *const r, const double sec)"
+convert floating point seconds to timecode\&.
+.PP
+uses \fBtimecode_sample_to_time\fP and \fBtimecode_seconds_to_sample\fP\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIt\fP [output] the timecode that corresponds to the sample 
+.br
+\fIr\fP frame rate to use for conversion 
+.br
+\fIsec\fP seconds to convert 
+.RE
+.PP
+
+.SS "size_t timecode_strftime (char * str, const size_t maxsize, const char * format, const \fBTimecodeTime\fP const *const t, const \fBTimecodeRate\fP const *const r)"
+wrapper around \fBtimecode_strftimecode\fP for formatting timecode time\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstr\fP [output] formatted string str (must be large enough)\&. 
+.br
+\fImaxsize\fP write at most maxsize bytes (including the trailing null byte ('\\0')) to str 
+.br
+\fIformat\fP the format directive 
+.br
+\fIt\fP the timecode time to format 
+.br
+\fIr\fP optional framerate (may be NULL) 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+number of bytes written to str 
+.RE
+.PP
+
+.SS "size_t timecode_strftimecode (char * str, const size_t maxsize, const char * format, const \fBTimecode\fP const *const t)"
+print formatted timecode to text string\&.
+.PP
+TODO format documentation\&.\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstr\fP [output] formatted string str (must be large enough)\&. 
+.br
+\fImaxsize\fP write at most maxsize bytes (including the trailing null byte ('\\0')) to str 
+.br
+\fIformat\fP the format directive 
+.br
+\fIt\fP the timecode to format 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+number of bytes written to str 
+.RE
+.PP
+
 .SS "void timecode_time_add (\fBTimecodeTime\fP *const res, \fBTimecodeRate\fP const *const r, \fBTimecodeTime\fP const *const t1, \fBTimecodeTime\fP const *const t2)"
+add two timecodes at same frame rate\&.
+.PP
+Note: res, t1 and t2 may all point to the same structure\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIres\fP [output] result of addition 
+.br
+\fIr\fP frame rate 
+.br
+\fIt1\fP first summand 
+.br
+\fIt2\fP second summand 
+.RE
+.PP
 
 .SS "int timecode_time_compare (\fBTimecodeRate\fP const *const r, \fBTimecodeTime\fP const *const a, \fBTimecodeTime\fP const *const b)"
 The \fBtimecode_time_compare()\fP function compares the two timecodes a and b\&. It returns an integer less than, equal to, or greater than zero if a is found, respectively, to be later than, to match, or be earlier than b\&.
@@ -518,9 +662,9 @@ The \fBtimecode_time_compare()\fP function compares the two timecodes a and b\&.
 .RS 4
 \fIr\fP frame rate to use for both a and b 
 .br
-\fIa\fP \fBTimecode\fP to compare (using frame rate r) 
+\fIa\fP timecode to compare (using frame rate r) 
 .br
-\fIb\fP \fBTimecode\fP to compare (using frame rate r) 
+\fIb\fP timecode to compare (using frame rate r) 
 .RE
 .PP
 \fBReturns:\fP
@@ -562,20 +706,35 @@ increment timecode by one frame\&.
 .PP
 
 .SS "void timecode_time_subtract (\fBTimecodeTime\fP *const res, \fBTimecodeRate\fP const *const r, \fBTimecodeTime\fP const *const t1, \fBTimecodeTime\fP const *const t2)"
-
-.SS "void timecode_time_to_string (\fBTimecodeTime\fP const *const t, char * smptestring)"
-format timecode as string 'HH:MM:SS:FF' 
+subtract timecode at same frame rate\&.
+.PP
+Note: res, t1 and t2 may all point to the same structure\&.
 .PP
 \fBParameters:\fP
 .RS 4
-\fIt\fP the timecode to print 
+\fIres\fP [output] difference between t1 and t2: (t1-t2) 
 .br
-\fIsmptestring\fP [output] length of smptestring: 12 bytes (incl terminating zero) 
+\fIr\fP frame rate 
+.br
+\fIt1\fP minuend 
+.br
+\fIt2\fP subtrahend 
+.RE
+.PP
+
+.SS "void timecode_time_to_string (char * smptestring, \fBTimecodeTime\fP const *const t)"
+format timecode as string 'HH:MM:SS:FF'\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsmptestring\fP [output] formatted string, must be at least 12 bytes long\&. 
+.br
+\fIt\fP the timecode to print 
 .RE
 .PP
 
 .SS "\fBint64_t\fP timecode_to_framenumber (\fBTimecodeTime\fP const *const t, \fBTimecodeRate\fP const *const r)"
-convert \fBTimecode\fP to frame number
+convert timecode to frame number
 .PP
 this function simply calls \fBtimecode_to_sample\fP with the samplerate set to the fps\&.
 .PP
@@ -593,7 +752,7 @@ frame-number
 .PP
 
 .SS "\fBint64_t\fP timecode_to_sample (\fBTimecodeTime\fP const *const t, \fBTimecodeRate\fP const *const r, const double samplerate)"
-convert \fBTimecode\fP to audio sample number
+convert timecode to audio sample number
 .PP
 NB\&. this function can also be used to convert integer milli-seconds or micro-seconds by specifying a sample rate of 1000 or 10^6 respectively\&.
 .PP
@@ -614,6 +773,24 @@ audio sample number
 .RE
 .PP
 
+.SS "double timecode_to_sec (\fBTimecodeTime\fP const *const t, \fBTimecodeRate\fP const *const r)"
+convert timecode to floating point seconds\&.
+.PP
+uses \fBtimecode_sample_to_seconds\fP and \fBtimecode_to_sample\fP\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIt\fP the timecode to convert 
+.br
+\fIr\fP frame rate 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+seconds 
+.RE
+.PP
+
 .SH "Variable Documentation"
 .PP 
 .SS "const \fBTimecodeRate\fP tcfps23976 = { 24000, 1001, 0, 80}"
@@ -624,15 +801,13 @@ audio sample number
 
 .SS "const \fBTimecodeRate\fP tcfps25 = { 25, 1, 0, 80}"
 
-.SS "const \fBTimecodeRate\fP tcfps2997df = {30*999, 1000, 1, 80}"
+.SS "const \fBTimecodeRate\fP tcfps2997df = { 30000, 1001, 1, 80}"
 
 .SS "const \fBTimecodeRate\fP tcfps2997ndf = { 30000, 1001, 0, 80}"
 
 .SS "const \fBTimecodeRate\fP tcfps30 = { 30, 1, 0, 80}"
 
 .SS "const \fBTimecodeRate\fP tcfps30df = { 30, 1, 1, 80}"
-
-.SS "const \fBTimecodeRate\fP tcfps30Mdf = { 30000, 1001, 1, 80}"
 
 .SS "const \fBTimecodeRate\fP tcfps5994 = { 60000, 1001, 0, 80}"
 

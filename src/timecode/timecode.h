@@ -404,18 +404,37 @@ int timecode_datetime_decrement (Timecode * const dt);
 /*  --- parse from string, export to string  --- */
 
 /**
- * format timecode as string "MM/DD/YYYY HH:MM:SS:FF +TZMM"
- * @param tc the datetime to print
- * @param smptestring [output] length of smptestring: 29 bytes (incl terminating zero)
- */
-
-void timecode_datetime_to_string (Timecode const * const tc, char *smptestring);
-/**
- * format timecode as string "HH:MM:SS:FF"
+ * format timecode as string "HH:MM:SS:FF".
+ *
+ * @param smptestring [output] formatted string, must be at least 12 bytes long.
  * @param t the timecode to print
- * @param smptestring [output] length of smptestring: 12 bytes (incl terminating zero)
  */
-void timecode_time_to_string (TimecodeTime const * const t, char *smptestring);
+void timecode_time_to_string (char *smptestring, TimecodeTime const * const t);
+
+/**
+ * print formatted timecode to text string.
+ *
+ * TODO format documentation..
+ *
+ * @param str [output] formatted string str (must be large enough).
+ * @param maxsize write at most maxsize bytes (including the trailing null byte ('\0')) to str
+ * @param format the format directive
+ * @param t the timecode to format
+ * @return number of bytes written to str
+ */
+size_t timecode_strftimecode (char *str, const size_t maxsize, const char *format, const Timecode const * const t);
+
+/**
+ * wrapper around \ref timecode_strftimecode for formatting timecode time.
+ *
+ * @param str [output] formatted string str (must be large enough).
+ * @param maxsize write at most maxsize bytes (including the trailing null byte ('\0')) to str
+ * @param format the format directive
+ * @param t the timecode time to format
+ * @param r optional framerate (may be NULL)
+ * @return number of bytes written to str
+ */
+size_t timecode_strftime (char *str, const size_t maxsize, const char *format, const TimecodeTime const * const t, const TimecodeRate const * const r);
 
 /**
  * parse string to timecode time - separators may include ":.;"
@@ -429,8 +448,6 @@ void timecode_parse_time (TimecodeTime * const t, TimecodeRate const * const r, 
 
 /* TODO, ideas */
 // parse date, timezone, parse packed format "HHMMSSFF"
-// flexible time and date formatting using '%' a la printf(), strftime()
-
 // Bar, Beat, Tick Time (Tempo-Based Time)
 
 #ifdef __cplusplus

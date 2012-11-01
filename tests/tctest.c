@@ -6,6 +6,7 @@
 // currently it's a mess of things :)
 
 #include <stdio.h>
+#include <string.h>
 #include <timecode/timecode.h>
 
 int checkfps(int64_t magic, TimecodeRate const * const fps, double samplerate) {
@@ -15,7 +16,7 @@ int checkfps(int64_t magic, TimecodeRate const * const fps, double samplerate) {
 
 	timecode_sample_to_time(&t, fps, samplerate, magic);
 	test = timecode_to_sample(&t, fps, samplerate);
-	timecode_time_to_string(&t, tcs); fprintf(stdout, "%s @%.2f%s\n", tcs, timecode_rate_to_double(fps), fps->drop?"df":"");
+	timecode_time_to_string(tcs, &t); fprintf(stdout, "%s @%.2f%s\n", tcs, timecode_rate_to_double(fps), fps->drop?"df":"");
 	printf("%lld %lld  diff: %lld\n", test, magic, magic-test);
 
 	return 0;
@@ -35,7 +36,7 @@ int checkadd(TimecodeRate const * const fps, double samplerate) {
 	test = timecode_to_sample(&t, fps, samplerate);
 	test*=2;
 	timecode_sample_to_time(&t, fps, samplerate, test);
-	timecode_time_to_string(&t, tcs); fprintf(stdout, "%s\n", tcs);
+	timecode_time_to_string(tcs, &t); fprintf(stdout, "%s\n", tcs);
 	test/=2;
 	timecode_sample_to_time(&t, fps, samplerate, test);
 
@@ -45,7 +46,7 @@ int checkadd(TimecodeRate const * const fps, double samplerate) {
 	t.frame  = 22;
 	t.subframe = 20;
 	timecode_time_add(&t, fps, &t, &t);
-	timecode_time_to_string(&t, tcs); fprintf(stdout, "%s\n", tcs);
+	timecode_time_to_string(tcs, &t); fprintf(stdout, "%s\n", tcs);
 	return 0;
 }
 
@@ -70,10 +71,10 @@ int checksub(TimecodeRate const * const fps, double samplerate) {
 	test2 = timecode_to_sample(&t2, fps, samplerate);
 
 	timecode_sample_to_time(&res, fps, samplerate, test1-test2);
-	timecode_time_to_string(&res, tcs); fprintf(stdout, "%s\n", tcs);
+	timecode_time_to_string(tcs, &res); fprintf(stdout, "%s\n", tcs);
 
 	timecode_time_subtract(&res, fps, &t1, &t2);
-	timecode_time_to_string(&res, tcs); fprintf(stdout, "%s\n", tcs);
+	timecode_time_to_string(tcs, &res); fprintf(stdout, "%s\n", tcs);
 	return 0;
 }
 
@@ -112,18 +113,20 @@ int main (int argc, char **argv) {
 
 	/* test converter */
 	printf("test convert\n");
+	checkfps(magic, &tcfps23976, 48000);
 	checkfps(magic, TCFPS24, 48000);
 	checkfps(magic, TCFPS25, 48000);
-	checkfps(magic, TCFPS2997DF, 48000);
 	checkfps(magic, &tcfps2997ndf, 48000);
+	checkfps(magic, TCFPS2997DF, 48000);
 	checkfps(magic, TCFPS30, 48000);
+	checkfps(magic, &tcfps30df, 48000);
 
 	/* test parser */
 	printf("test parser\n");
 	TimecodeTime t;
-	char tcs[20];
+	char tcs[64];
 	timecode_parse_time(&t, TCFPS25, "1:::-1");
-	timecode_time_to_string(&t, tcs); fprintf(stdout, "%s\n", tcs);
+	timecode_time_to_string(tcs, &t); fprintf(stdout, "%s\n", tcs);
 
 	/* test add/sub */
 	printf("test addition/subtraction\n");
@@ -148,9 +151,10 @@ int main (int argc, char **argv) {
 	tc.t.second   = 59;
 	tc.t.frame    = 29;
 	tc.t.subframe = 29;
+	memcpy(&tc.r, TCFPS30, sizeof(TimecodeRate));
 
-	timecode_datetime_increment(&tc, TCFPS30);
-	timecode_datetime_decrement(&tc, TCFPS30);
+	timecode_datetime_increment(&tc);
+	timecode_datetime_decrement(&tc);
 
 	fprintf(stdout, "%02d/%02d/%02d  %02d:%02d:%02d%c%02d\n",
 			tc.d.month,
@@ -166,21 +170,31 @@ int main (int argc, char **argv) {
 
 	tc.t.subframe = 0;
 
-	timecode_time_to_string(&tc.t, tcs); fprintf(stdout, "%s @30fps\n", tcs);
+	timecode_time_to_string(tcs, &tc.t); fprintf(stdout, "%s @30fps\n", tcs);
 	timecode_convert_rate(&tc.t, TCFPS24, &tc.t, TCFPS30);
-	timecode_time_to_string(&tc.t, tcs); fprintf(stdout, "%s @24fps\n", tcs);
+	timecode_time_to_string(tcs, &tc.t); fprintf(stdout, "%s @24fps\n", tcs);
 	timecode_convert_rate(&tc.t, TCFPS25, &tc.t, TCFPS24);
-	timecode_time_to_string(&tc.t, tcs); fprintf(stdout, "%s @25fps\n", tcs);
+	timecode_time_to_string(tcs, &tc.t); fprintf(stdout, "%s @25fps\n", tcs);
 	timecode_convert_rate(&tc.t, TCFPS30, &tc.t, TCFPS25);
-	timecode_time_to_string(&tc.t, tcs); fprintf(stdout, "%s @30fps\n", tcs);
+	timecode_time_to_string(tcs, &tc.t); fprintf(stdout, "%s @30fps\n", tcs);
 	timecode_convert_rate(&tc.t, TCFPS25, &tc.t, TCFPS30);
-	timecode_time_to_string(&tc.t, tcs); fprintf(stdout, "%s @25fps\n", tcs);
+	timecode_time_to_string(tcs, &tc.t); fprintf(stdout, "%s @25fps\n", tcs);
 	timecode_convert_rate(&tc.t, TCFPS24, &tc.t, TCFPS25);
-	timecode_time_to_string(&tc.t, tcs); fprintf(stdout, "%s @24fps\n", tcs);
-	timecode_convert_rate(&tc.t, TCFPS30, &tc.t, TCFPS24);
-	timecode_time_to_string(&tc.t, tcs); fprintf(stdout, "%s @30fps\n", tcs);
-	timecode_convert_rate(&tc.t, &tcfpsUS, &tc.t, TCFPS30);
-	timecode_time_to_string(&tc.t, tcs); fprintf(stdout, "%s\n", tcs);
+	timecode_time_to_string(tcs, &tc.t); fprintf(stdout, "%s @24fps\n", tcs);
+	//timecode_convert_rate(&tc.t, TCFPS30, &tc.t, TCFPS24);
+	//timecode_time_to_string(tcs, &tc.t); fprintf(stdout, "%s @30fps\n", tcs);
+	//timecode_convert_rate(&tc.t, &tcfpsUS, &tc.t, TCFPS30);
+	//timecode_time_to_string(tcs, &tc.t); fprintf(stdout, "%s\n", tcs);
+
+	printf(" to/from sec\n");
+	double sec = timecode_to_sec(&tc.t, &tcfps24);
+	printf("%f\n", sec);
+	timecode_seconds_to_time(&tc.t, TCFPSMS, sec);
+
+	memcpy(&tc.r, TCFPSMS, sizeof(TimecodeRate));
+	tc.t.frame = 5;
+	tc.d.timezone = -90;
+	timecode_strftimecode(tcs, 64,"%Z", &tc); fprintf(stdout, "%s\n", tcs);
 
 	return 0;
 }

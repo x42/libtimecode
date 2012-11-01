@@ -439,17 +439,137 @@ int timecode_datetime_decrement (Timecode * const dt) {
  * Format & Parse
  */
 
-void timecode_datetime_to_string (Timecode const * const tc, char *smptestring) {
-	snprintf(smptestring, 33, "%02d/%02d/%04d %02d:%02d:%02d:%02d %+03d%02d",
-			tc->d.month, tc->d.day, tc->d.year,
-			tc->t.hour, tc->t.minute, tc->t.second, tc->t.frame,
-			tc->d.timezone/60, abs(tc->d.timezone)%60
-			);
+void timecode_time_to_string (char *smptestring, TimecodeTime const * const t) {
+	snprintf(smptestring, 12, "%02d:%02d:%02d:%02d",
+			t->hour, t->minute, t->second, t->frame);
 }
 
-void timecode_time_to_string (TimecodeTime const * const t, char *smptestring) {
-	snprintf(smptestring, 16, "%02d:%02d:%02d:%02d",
-			t->hour, t->minute, t->second, t->frame);
+/* custom version of strncpy - pointer limit, return end of string */
+static char *_strlcpy(char *dest, const char *limit, const char *src) {
+	while (dest < limit && (*dest = *src++) != '\0') ++dest;
+	return dest;
+}
+
+#define _fmtval(dest, limit, format, ...)  \
+{                                          \
+	char tmp[32];                            \
+	snprintf(tmp, 32, format, __VA_ARGS__);  \
+	tmp[31]= '\0';                           \
+	dest = _strlcpy(dest, limit, tmp);       \
+}
+
+/* follows strftime() where appropriate */
+static char *_fmttc(char *p, const char *limit, const char *format, const Timecode const * const tc) {
+	for ( ; *format; ++format) {
+		if (*format == '%') {
+			switch (*++format) {
+				/* misc */
+				case '\0':
+					--format;
+					break;
+				case 't':
+						p= _strlcpy(p, limit, "\t");
+					continue;
+
+				/* date, timezone */
+				case 'm':
+					_fmtval(p, limit, "%02d", tc->d.month);
+					continue;
+				case 'd':
+					_fmtval(p, limit, "%02d", tc->d.day);
+					continue;
+				case 'y':
+					_fmtval(p, limit, "%02d", tc->d.year%100);
+					continue;
+				case 'Y':
+					_fmtval(p, limit, "%04d", tc->d.year);
+					continue;
+				case 'z':
+					_fmtval(p, limit, "%+03d%02d", tc->d.timezone/60, abs(tc->d.timezone)%60);
+					continue;
+
+				/* frame rate */
+				case ':':
+					if (tc->r.drop) {
+						p= _strlcpy(p, limit, ";");
+					} else {
+						p= _strlcpy(p, limit, ":");
+					}
+					continue;
+
+				case 'f':
+					if (tc->r.den == 1) {
+						_fmtval(p, limit, "%d", tc->r.num);
+					} else {
+						_fmtval(p, limit, "%.2f", TCtoDbl(&tc->r));
+					}
+					if (tc->r.drop) {
+						p= _strlcpy(p, limit, "df");
+					}
+					continue;
+
+				case 'F':
+					{
+						int lz = (tc->r.den < 1 || TCtoDbl(&tc->r) <= 1) ? 1 : ceil(log10(TCtoDbl(&tc->r)));
+						char fmt[8]; snprintf(fmt, 8, "%%0%dd", lz%10);
+						_fmtval(p, limit, fmt, tc->t.frame);
+					}
+					continue;
+
+				/* time, frames */
+				case 'H':
+					_fmtval(p, limit, "%02d", tc->t.hour);
+					continue;
+				case 'M':
+					_fmtval(p, limit, "%02d", tc->t.minute);
+					continue;
+				case 'S':
+					_fmtval(p, limit, "%02d", tc->t.second);
+					continue;
+				case 's':
+					{
+						int lz = tc->r.subframes < 1 ? 1 : ceil(log10(tc->r.subframes));
+						char fmt[8]; snprintf(fmt, 8, "%%0%dd", lz%10);
+						_fmtval(p, limit, fmt, tc->t.subframe);
+					}
+					continue;
+
+				/* presets */
+				case 'T':
+					p = _fmttc(p, limit, "%H:%M:%S%;%F", tc);
+					continue;
+				case 'Z':
+					p = _fmttc(p, limit, "%Y-%m-%d %H:%M:%S%:%F.%s %z @%f fps", tc);
+					continue;
+				default:
+					break; // out of select
+			}
+		}
+		if (p == limit)
+			break; // out of for-loop
+		*p++ = *format;
+	}
+	return p;
+}
+
+size_t timecode_strftimecode (char *str, const size_t maxsize, const char *format, const Timecode const * const t) {
+	char *p;
+	p = _fmttc(str, str + maxsize, ((format == NULL) ? "%c" : format), t);
+	if (p == str + maxsize) return 0;
+	*p = '\0';
+	return p - str;
+}
+
+size_t timecode_strftime (char *str, const size_t maxsize, const char *format, const TimecodeTime const * const t, const TimecodeRate const * const r) {
+	Timecode tc;
+	memset(&tc, 0, sizeof(Timecode));
+	memcpy(&tc.t, t, sizeof(TimecodeTime));
+	if (r) {
+		memcpy(&tc.r, r, sizeof(TimecodeRate));
+	} else {
+		tc.r.num=tc.r.den=tc.r.subframes=1;
+	}
+	return timecode_strftimecode(str, maxsize, format, &tc);
 }
 
 /* C99 only defines strpbrk() - this is the reverse version */
