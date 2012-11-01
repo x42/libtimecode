@@ -145,6 +145,38 @@ void timecode_convert_rate (TimecodeTime * const t_out, TimecodeRate const * con
 }
 
 /*****************************************************************************
+ * float seconds
+ */
+
+double timecode_sample_to_seconds (const int64_t sample, double samplerate) {
+	return (double)sample / samplerate;
+}
+
+int64_t timecode_seconds_to_sample (const double sec, double samplerate) {
+	return rint(sec * samplerate);
+}
+
+double timecode_framenumber_to_seconds (const int64_t frameno, TimecodeRate const * const r) {
+	return (double)frameno / TCtoDbl(r);
+}
+
+int64_t timecode_seconds_to_framenumber (const double sec, TimecodeRate const * const r) {
+	return floor(sec * TCtoDbl(r));
+}
+
+void timecode_seconds_to_time (TimecodeTime * const t, TimecodeRate const * const r, const double sec) {
+	const double rate = TCtoDbl(r);
+	timecode_sample_to_time(t, r, rate,
+			timecode_seconds_to_sample(sec, rate));
+}
+
+double timecode_to_sec (TimecodeTime const * const t, TimecodeRate const * const r) {
+	const double rate = TCtoDbl(r);
+	return timecode_sample_to_seconds(timecode_to_sample(t, r, rate), rate);
+}
+
+
+/*****************************************************************************
  * Add Subtract
  */
 

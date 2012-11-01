@@ -219,6 +219,69 @@ void timecode_framenumber_to_time (TimecodeTime * const t, TimecodeRate const * 
 void timecode_convert_rate (TimecodeTime * const t_out, TimecodeRate const * const r_out, TimecodeTime * const t_in, TimecodeRate const * const r_in);
 
 
+/* --- float seconds --- */
+
+/**
+ * convert sample number to floating point seconds
+ *
+ * @param sample sample number (starting at zero)
+ * @param samplerate sample rate
+ * @return seconds
+ */
+double timecode_sample_to_seconds (const int64_t sample, double samplerate);
+
+/**
+ * convert floating-point seconds to nearest sample number at given sample rate.
+ *
+ * @param sec seconds
+ * @param samplerate sample rate
+ * @return sample number (starting at zero)
+ */
+int64_t timecode_seconds_to_sample (const double sec, double samplerate);
+
+/**
+ * convert frame number to floating point seconds
+ *
+ * @param frameno frame number (starting at zero)
+ * @param r frame rate
+ * @return seconds
+ */
+double timecode_framenumber_to_seconds (const int64_t frameno, TimecodeRate const * const r);
+
+/**
+ * convert floating-point seconds to timecode frame number at given frame rate.
+ * Opposed to \ref timecode_seconds_to_sample which rounds the sample number to
+ * the nearest sample, this function always rounds down to the current frame.
+ *
+ * @param sec seconds
+ * @param r frame rate
+ * @return sample number (starting at zero)
+ */
+int64_t timecode_seconds_to_framenumber (const double sec, TimecodeRate const * const r);
+
+/**
+ * convert floating point seconds to timecode.
+ *
+ * uses \ref timecode_sample_to_time and \ref timecode_seconds_to_sample.
+ *
+ * @param t [output] the timecode that corresponds to the sample
+ * @param r frame rate to use for conversion
+ * @param sec seconds to convert
+ */
+void timecode_seconds_to_time (TimecodeTime * const t, TimecodeRate const * const r, const double sec);
+
+/**
+ * convert timecode to floating point seconds.
+ *
+ * uses \ref timecode_sample_to_seconds and \ref timecode_to_sample.
+ *
+ * @param t the timecode to convert
+ * @param r frame rate
+ * @return seconds
+ */
+double timecode_to_sec (TimecodeTime const * const t, TimecodeRate const * const r);
+
+
 /*  --- add/subtract timecodes at same frame rate  --- */
 
 /**
@@ -345,7 +408,6 @@ void timecode_time_to_string (TimecodeTime const * const t, char *smptestring);
 void timecode_parse_time (TimecodeTime * const t, TimecodeRate const * const r, const char *val);
 
 /* TODO, ideas */
-// parse from float sec, export to float sec
 // parse date, timezone, parse packed format "HHMMSSFF"
 // flexible time and date formatting using '%' a la printf(), strftime()
 
