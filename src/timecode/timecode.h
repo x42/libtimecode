@@ -285,9 +285,26 @@ double timecode_to_sec (TimecodeTime const * const t, TimecodeRate const * const
 /*  --- add/subtract timecodes at same frame rate  --- */
 
 /**
+ * add two timecodes at same frame rate.
+ *
+ * Note: res, t1 and t2 may all point to the same structure.
+ *
+ * @param res [output] result of addition
+ * @param r frame rate
+ * @param t1 first summand
+ * @param t2 second summand
  */
 void timecode_time_add (TimecodeTime * const res, TimecodeRate const * const r, TimecodeTime const * const t1, TimecodeTime const * const t2);
+
 /**
+ * subtract timecode at same frame rate.
+ *
+ * Note: res, t1 and t2 may all point to the same structure.
+ *
+ * @param res [output] difference between t1 and t2: (t1-t2)
+ * @param r frame rate
+ * @param t1 minuend
+ * @param t2 subtrahend
  */
 void timecode_time_subtract (TimecodeTime * const res, TimecodeRate const * const r, TimecodeTime const * const t1, TimecodeTime const * const t2);
 
