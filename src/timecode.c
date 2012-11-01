@@ -98,7 +98,7 @@ void timecode_sample_to_time (TimecodeTime * const t, TimecodeRate const * const
 		t->frame  =    frameNumber % 30;
 		t->second =   (frameNumber / 30) % 60;
 		t->minute =  ((frameNumber / 30) / 60) % 60;
-		t->hour   = (((frameNumber / 30) / 60) / 60) % 24;
+		t->hour   = (((frameNumber / 30) / 60) / 60);
 
 	} else {
 		double timecode_frames_left_exact;

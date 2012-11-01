@@ -101,12 +101,12 @@ typedef struct Timecode {
 /* TODO: clear up fractional fps concept - check SMPTE-12M and ATSC specs */
 
 const TimecodeRate tcfps23976   = { 24000, 1001, 0, 80};
-const TimecodeRate tcfps24      = {   24,     1, 0, 80};
+const TimecodeRate tcfps24      = {    24,    1, 0, 80};
 const TimecodeRate tcfps24976   = { 25000, 1001, 0, 80};
-const TimecodeRate tcfps25      = {   25,     1, 0, 80};
+const TimecodeRate tcfps25      = {    25,    1, 0, 80};
 const TimecodeRate tcfps2997ndf = { 30000, 1001, 0, 80};
-const TimecodeRate tcfps2997df  = { 30000, 1001, 1, 80};
-const TimecodeRate tcfps2997xdf = {30*999, 1000, 1, 80};
+const TimecodeRate tcfps30Mdf   = { 30000, 1001, 1, 80};
+const TimecodeRate tcfps2997df  = {30*999, 1000, 1, 80};
 const TimecodeRate tcfps30      = {    30,    1, 0, 80};
 const TimecodeRate tcfps30df    = {    30,    1, 1, 80};
 const TimecodeRate tcfps5994    = { 60000, 1001, 0, 80};
