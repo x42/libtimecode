@@ -1,3 +1,10 @@
+// TODO
+//
+// this needs to become a proper self-test
+// and example-code.
+//
+// currently it's a mess of things :)
+
 #include <stdio.h>
 #include <timecode/timecode.h>
 
@@ -8,7 +15,7 @@ int checkfps(int64_t magic, TimecodeRate const * const fps, double samplerate) {
 
 	timecode_sample_to_time(&t, fps, samplerate, magic);
 	test = timecode_to_sample(&t, fps, samplerate);
-	timecode_time_to_string(&t, tcs); fprintf(stdout, "%s\n", tcs);
+	timecode_time_to_string(&t, tcs); fprintf(stdout, "%s @%.2f%s\n", tcs, timecode_rate_to_double(fps), fps->drop?"df":"");
 	printf("%lld %lld  diff: %lld\n", test, magic, magic-test);
 
 	return 0;
@@ -99,7 +106,8 @@ int checkcmp() {
 }
 
 int main (int argc, char **argv) {
-  int64_t magic = 964965602; // 05:34:42:11 @29.97df
+  int64_t magic = 964965602; // 05:34:43:11 @29.97ndf, 48kSPS
+  //int64_t magic = 1601568888; //
 	Timecode tc;
 
 	/* test converter */
@@ -107,6 +115,7 @@ int main (int argc, char **argv) {
 	checkfps(magic, TCFPS24, 48000);
 	checkfps(magic, TCFPS25, 48000);
 	checkfps(magic, TCFPS2997DF, 48000);
+	checkfps(magic, &tcfps2997ndf, 48000);
 	checkfps(magic, TCFPS30, 48000);
 
 	/* test parser */
