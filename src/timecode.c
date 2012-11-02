@@ -347,7 +347,7 @@ int timecode_time_increment(TimecodeTime * const t, TimecodeRate const * const r
 	const int fps = ceil(TCtoDbl(r));
 	t->frame++;
 
-	if (fps < t->frame) goto done;
+	if (t->frame < fps) goto done;
 	t->frame = 0;
 	t->second++;
 	if (t->second < 60) goto done;
