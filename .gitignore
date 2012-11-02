@@ -19,6 +19,7 @@ doc/html/
 doc/libtimecode.xcf
 doc/xslate.xcf
 doc/man/man3/mainpage.dox.3
+doc/man/man3/*_src_*
 
 libtimecode-[0-9\.]*.tar.gz
 
