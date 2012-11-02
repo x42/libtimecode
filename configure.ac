@@ -13,9 +13,9 @@ if test -z "$VERSION"; then
   AC_MSG_ERROR([version number can not be retrieved from src/timecode/timecode.h])
 fi
 
-VERSION_CUR=`$SED -ne 's/^#define LIBTIMECODE_CUR\s*\([0-9]*\)/\1/p' ${srcdir}/src/timecode/timecode.h 2>/dev/null`
-VERSION_REV=`$SED -ne 's/^#define LIBTIMECODE_REV\s*\([0-9]*\)/\1/p' ${srcdir}/src/timecode/timecode.h 2>/dev/null`
-VERSION_AGE=`$SED -ne 's/^#define LIBTIMECODE_AGE\s*\([0-9]*\)/\1/p' ${srcdir}/src/timecode/timecode.h 2>/dev/null`
+VERSION_CUR=`$SED -ne 's/^#define LIBTIMECODE_CUR *\([0-9]*\)/\1/p' ${srcdir}/src/timecode/timecode.h 2>/dev/null`
+VERSION_REV=`$SED -ne 's/^#define LIBTIMECODE_REV *\([0-9]*\)/\1/p' ${srcdir}/src/timecode/timecode.h 2>/dev/null`
+VERSION_AGE=`$SED -ne 's/^#define LIBTIMECODE_AGE *\([0-9]*\)/\1/p' ${srcdir}/src/timecode/timecode.h 2>/dev/null`
 VERSION_INFO=${VERSION_CUR}:${VERSION_REV}:${VERSION_AGE}
 
 AC_CONFIG_SRCDIR([src/timecode.c])
