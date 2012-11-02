@@ -492,6 +492,7 @@ void timecode_parse_time (TimecodeTime * const t, TimecodeRate const * const r, 
 
 /* TODO, ideas */
 // parse date, timezone, parse packed format "HHMMSSFF"
+// import libltc's SMPTETimecode struct
 // Bar, Beat, Tick Time (Tempo-Based Time)
 
 #ifdef __cplusplus

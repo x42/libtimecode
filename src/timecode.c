@@ -616,3 +616,72 @@ void timecode_parse_time (TimecodeTime * const t, TimecodeRate const * const r, 
 		t->frame=2;
 	}
 }
+
+void timecode_parse_packed_time (TimecodeTime * const t, const char *val) {
+	const int bcd = atoi(val);
+	t->hour     = (bcd/1000000)%24;
+	t->minute   = (bcd/10000)%60;
+	t->second   = (bcd/100)%60;
+	t->frame    = (bcd%100);
+	t->subframe = 0;
+}
+
+void timecode_parse_timezone (TimecodeDate * const d, const char *val) {
+	const int tz = atoi(val);
+	d->timezone = (tz/100)*60  + (abs(tz)%100);
+}
+
+/* corresponds to https://github.com/x42/libltc SMPTETimecode */
+struct LTCTimecode {
+	char timezone[6];     ///< "+HHMM" format
+	unsigned char years;  ///< LTC-date uses 2-digit year 00.99
+	unsigned char months; ///< valid months are 1..12
+	unsigned char days;   ///< day of month 1..31
+
+	unsigned char hours;  ///< hour 0..23
+	unsigned char mins;   ///< minute 0..60
+	unsigned char secs;   ///< second 0..60
+	unsigned char frame;  ///< sub-second frame 0..{FPS-1}
+};
+
+void timecode_parse_libltc_timecode (Timecode * const tc, const void *ltctc) {
+	struct LTCTimecode *ltc = (struct LTCTimecode*) ltctc;
+	const int tz = atoi(ltc->timezone);
+
+	tc->d.timezone = (tz/100)*60  + (abs(tz)%100);
+	tc->d.year     = ltc->years;
+	tc->d.month    = ltc->months;
+	tc->d.day      = ltc->days;
+
+	tc->t.hour     = ltc->hours;
+	tc->t.minute   = ltc->mins;
+	tc->t.second   = ltc->secs;
+	tc->t.frame    = ltc->frame;
+	tc->t.subframe = 0;
+}
+
+void timecode_copy_rate (Timecode * const tc, TimecodeRate const * const r) {
+	memcpy(&tc->r, r, sizeof(TimecodeRate));
+}
+
+void timecode_set_rate (Timecode * const tc, const int num, const int den, const int df, const int sf) {
+	tc->r.num       = num;
+	tc->r.den       = den;
+	tc->r.drop      = df;
+	tc->r.subframes = sf;
+}
+
+void timecode_set_time (Timecode * const tc, const int H, const int M, const int S, const int F, const int s) {
+	tc->t.hour     = H;
+	tc->t.minute   = M;
+	tc->t.second   = S;
+	tc->t.frame    = F;
+	tc->t.subframe = s;
+}
+
+void timecode_set_date (Timecode * const tc, const int y, const int m, const int d, const int tz) {
+	tc->d.year     = y;
+	tc->d.month    = m;
+	tc->d.day      = d;
+	tc->d.timezone = tz;
+}
