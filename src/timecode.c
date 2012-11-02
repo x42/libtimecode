@@ -508,14 +508,6 @@ static char *_fmttc(char *p, const char *limit, const char *format, const Timeco
 					}
 					continue;
 
-				case 'F':
-					{
-						int lz = (tc->r.den < 1 || TCtoDbl(&tc->r) <= 1) ? 1 : ceil(log10(TCtoDbl(&tc->r)));
-						char fmt[8]; snprintf(fmt, 8, "%%0%dd", lz%10);
-						_fmtval(p, limit, fmt, tc->t.frame);
-					}
-					continue;
-
 				/* time, frames */
 				case 'H':
 					_fmtval(p, limit, "%02d", tc->t.hour);
@@ -525,6 +517,13 @@ static char *_fmttc(char *p, const char *limit, const char *format, const Timeco
 					continue;
 				case 'S':
 					_fmtval(p, limit, "%02d", tc->t.second);
+					continue;
+				case 'F':
+					{
+						int lz = (tc->r.den < 1 || TCtoDbl(&tc->r) <= 1) ? 1 : ceil(log10(TCtoDbl(&tc->r)));
+						char fmt[8]; snprintf(fmt, 8, "%%0%dd", lz%10);
+						_fmtval(p, limit, fmt, tc->t.frame);
+					}
 					continue;
 				case 's':
 					{

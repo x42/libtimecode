@@ -414,7 +414,51 @@ void timecode_time_to_string (char *smptestring, TimecodeTime const * const t);
 /**
  * print formatted timecode to text string.
  *
- * TODO format documentation..
+ * The formatting is very similar to that of strftime or printf:
+ * The format string is a a null-terminated string composed of zero or more directives:
+ * ordinary characters (not %), which are copied unchanged to the output stream; and
+ * conversion specifications, each conversion specification is introduced by the
+ * character %, and ends with a conversion specifier.
+ *
+ * The characters of conversion specifications are replaced as follows:
+ *
+ * Time conversion:
+ *
+ * - \%H   timecode hour as a 2-digit integer.
+ *
+ * - \%M   timecode minute as a 2-digit integer.
+ *
+ * - \%S   timecode second as a 2-digit integer.
+ *
+ * - \%F   timecode frame number with leading zeros - the number of leading zeroes depends on the frame rate.
+ *
+ * - \%s   timecode subframes with leading zeros - the number of leading zeroes depends on the frame rate.
+ *
+ * Date conversion:
+ *
+ * - \%y   The year as a decimal number without a century (range 00 to 99).
+ *
+ * - \%Y   The year as a decimal number including the century.
+ *
+ * - \%m   The month as a decimal number (range 01 to 12).
+ *
+ * - \%d   The day of the month as a decimal number (range 01 to 31).
+ *
+ * Frame rate conversion:
+ *
+ * - \%f   frame rate incl. drop-frame postfix e.g. "25" or "29.97df"
+ *
+ * - \%:   frame separator  ':' for non-drop-frame, ';' for drop-frame timecode
+ *
+ * Miscellaneous and presets:
+ *
+ * - \%t   A tab character.
+ *
+ * - \%%   A literal '%' character.
+ *
+ * - \%T   preset alias for "%H:%M:%S%;%F"
+ *
+ * - \%Z   preset alias for "%Y-%m-%d %H:%M:%S%:%F.%s %z @%f fps"
  *
  * @param str [output] formatted string str (must be large enough).
  * @param maxsize write at most maxsize bytes (including the trailing null byte ('\0')) to str
