@@ -1,4 +1,4 @@
-.TH "timecode.h" 3 "Thu Nov 1 2012" "Version 0.5.0" "libtimecode" \" -*- nroff -*-
+.TH "timecode.h" 3 "Fri Nov 2 2012" "Version 0.5.0" "libtimecode" \" -*- nroff -*-
 .ad l
 .nh
 .SH NAME
@@ -619,7 +619,77 @@ number of bytes written to str
 .SS "size_t timecode_strftimecode (char * str, const size_t maxsize, const char * format, const \fBTimecode\fP const *const t)"
 print formatted timecode to text string\&.
 .PP
-TODO format documentation\&.\&.
+The formatting is very similar to that of strftime or printf: The format string is a a null-terminated string composed of zero or more directives: ordinary characters (not %), which are copied unchanged to the output stream; and conversion specifications, each conversion specification is introduced by the character %, and ends with a conversion specifier\&.
+.PP
+The characters of conversion specifications are replaced as follows:
+.PP
+Time conversion:
+.PP
+.IP "\(bu" 2
+%H timecode hour as a 2-digit integer\&.
+.PP
+.PP
+.IP "\(bu" 2
+%M timecode minute as a 2-digit integer\&.
+.PP
+.PP
+.IP "\(bu" 2
+%S timecode second as a 2-digit integer\&.
+.PP
+.PP
+.IP "\(bu" 2
+%F timecode frame number with leading zeros - the number of leading zeroes depends on the frame rate\&.
+.PP
+.PP
+.IP "\(bu" 2
+%s timecode subframes with leading zeros - the number of leading zeroes depends on the frame rate\&.
+.PP
+.PP
+Date conversion:
+.PP
+.IP "\(bu" 2
+%y The year as a decimal number without a century (range 00 to 99)\&.
+.PP
+.PP
+.IP "\(bu" 2
+%Y The year as a decimal number including the century\&.
+.PP
+.PP
+.IP "\(bu" 2
+%m The month as a decimal number (range 01 to 12)\&.
+.PP
+.PP
+.IP "\(bu" 2
+%d The day of the month as a decimal number (range 01 to 31)\&.
+.PP
+.PP
+Frame rate conversion:
+.PP
+.IP "\(bu" 2
+%f frame rate incl\&. drop-frame postfix e\&.g\&. '25' or '29\&.97df'
+.PP
+.PP
+.IP "\(bu" 2
+%: frame separator ':' for non-drop-frame, ';' for drop-frame timecode
+.PP
+.PP
+Miscellaneous and presets:
+.PP
+.IP "\(bu" 2
+%t A tab character\&.
+.PP
+.PP
+.IP "\(bu" 2
+%% A literal '' character\&.
+.PP
+.PP
+.IP "\(bu" 2
+%T preset alias for '%H:%M:%S%;%F'
+.PP
+.PP
+.IP "\(bu" 2
+%Z preset alias for '%Y-%m-%d %H:%M:%S%:%F\&.%s %z @%f fps'
+.PP
 .PP
 \fBParameters:\fP
 .RS 4
