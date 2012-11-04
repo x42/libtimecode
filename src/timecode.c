@@ -139,6 +139,7 @@ void timecode_framenumber_to_time (TimecodeTime * const t, TimecodeRate const * 
 
 void timecode_convert_rate (TimecodeTime * const t_out, TimecodeRate const * const r_out, TimecodeTime * const t_in, TimecodeRate const * const r_in) {
 	//const double rate = 84672000; // LCM(192k, 88.2k, 24, 25, 30)
+	//const double rate = TCtoDbl(r_out) < TCtoDbl(r_in) ? (TCtoDbl(r_in) * r_in->subframes) : (TCtoDbl(r_out) * r_out->subframes);
 	const double rate = TCtoDbl(r_out) < TCtoDbl(r_in) ?  TCtoDbl(r_in) :  TCtoDbl(r_out);
 	int64_t s = timecode_to_sample(t_in, r_in, rate);
 	timecode_sample_to_time(t_out, r_out, rate, s);
@@ -165,13 +166,13 @@ int64_t timecode_seconds_to_framenumber (const double sec, TimecodeRate const * 
 }
 
 void timecode_seconds_to_time (TimecodeTime * const t, TimecodeRate const * const r, const double sec) {
-	const double rate = TCtoDbl(r);
+	const double rate = TCtoDbl(r) * r->subframes;
 	timecode_sample_to_time(t, r, rate,
 			timecode_seconds_to_sample(sec, rate));
 }
 
 double timecode_to_sec (TimecodeTime const * const t, TimecodeRate const * const r) {
-	const double rate = TCtoDbl(r);
+	const double rate = TCtoDbl(r) * r->subframes;
 	return timecode_sample_to_seconds(timecode_to_sample(t, r, rate), rate);
 }
 
