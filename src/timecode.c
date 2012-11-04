@@ -181,7 +181,7 @@ double timecode_to_sec (TimecodeTime const * const t, TimecodeRate const * const
  * Add Subtract
  */
 
-static int32_t move_overflow(TimecodeTime * const t, TimecodeRate const * const r) {
+static int32_t move_time_overflow(TimecodeTime * const t, TimecodeRate const * const r) {
 	int i;
 	int32_t rv = 0;
 	int32_t * const bcd[6] = {&t->subframe, &t->frame, &t->second, &t->minute, &t->hour, &rv };
@@ -213,6 +213,47 @@ static int32_t move_overflow(TimecodeTime * const t, TimecodeRate const * const 
 	return rv;
 }
 
+int date_is_valid(TimecodeDate * const d) {
+	unsigned char dpm[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+	if (d->month < 1 || d->month > 12) return 1;
+	if ( (d->year%4)==0 && ( (d->year%100) != 0 || (d->year%400) == 0) ) { dpm[1]=29; } else { dpm[1]=28; }
+	if (d->day < 1 || d->day > dpm[d->month-1]) return 2;
+	return 0;
+}
+
+void move_date_overflow(TimecodeDate * const d) {
+	unsigned char dpm[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
+
+	while (date_is_valid(d)) {
+		if (d->month > 12) {
+			d->year += (d->month-1)/12;
+			d->month = 1 + ((d->month-1)%12);
+		}
+		if (d->month < 1) {
+			d->year -= (12-d->month)/12;
+			d->month = 12 - ((12-d->month)%12);
+		}
+
+		if ( (d->year%4)==0 && ( (d->year%100) != 0 || (d->year%400) == 0) ) { dpm[1]=29; } else { dpm[1]=28; }
+		if (d->day > dpm[d->month-1]) {
+			d->day-= dpm[(d->month-1)%12];
+			d->month++;
+			if (d->month > 12) {
+				d->month -= 12;
+				d->year++;
+			}
+		}
+		if (d->day < 1) {
+			d->month--;
+			if (d->month < 1) {
+				d->month += 12;
+				d->year--;
+				d->day+= dpm[(d->month-1)%12];
+			}
+		}
+	}
+}
+
 static int32_t dropped_frames(TimecodeTime const * const t) {
 		int64_t totalMinutes = 60 * t->hour + t->minute;
 		return 2 * (totalMinutes - totalMinutes / 10);
@@ -231,11 +272,11 @@ void timecode_time_add (TimecodeTime * const res, TimecodeRate const * const r, 
 	res->hour     = t1->hour     + t2->hour    ;
 
 	if (r->drop) {
-		move_overflow(res, r);
+		move_time_overflow(res, r);
 		res->frame += dropped_frames(res) - df;
 	}
 
-	move_overflow(res, r);
+	move_time_overflow(res, r);
 }
 
 void timecode_time_subtract (TimecodeTime * const res, TimecodeRate const * const r, TimecodeTime const * const t1, TimecodeTime const * const t2) {
@@ -251,11 +292,11 @@ void timecode_time_subtract (TimecodeTime * const res, TimecodeRate const * cons
 	res->hour     = t1->hour     - t2->hour    ;
 
 	if (r->drop) {
-		move_overflow(res, r);
+		move_time_overflow(res, r);
 		res->frame += dropped_frames(res) - df;
 	}
 
-	move_overflow(res, r);
+	move_time_overflow(res, r);
 }
 
 #define CMP(a,b) ( (a) > (b) ? 1 : -1)
@@ -288,8 +329,8 @@ int timecode_datetime_compare (TimecodeRate const * const r, Timecode const * co
 	ax.d.timezone = bx.d.timezone = 0;
 
 	/* adjust day, month */
-	int ao = move_overflow(&ax.t, r);
-	int bo = move_overflow(&bx.t, r);
+	int ao = move_time_overflow(&ax.t, r);
+	int bo = move_time_overflow(&bx.t, r);
 
 	if (ao < 0) {
 		int i;
@@ -611,7 +652,7 @@ void timecode_parse_time (TimecodeTime * const t, TimecodeRate const * const r, 
 
 	free(buf);
 
-	move_overflow(t, r);
+	move_time_overflow(t, r);
 
 	if (r->drop && (t->minute%10 != 0) && (t->second == 0) && (t->frame == 0)) {
 		t->frame=2;
@@ -685,4 +726,12 @@ void timecode_set_date (Timecode * const tc, const int y, const int m, const int
 	tc->d.month    = m;
 	tc->d.day      = d;
 	tc->d.timezone = tz;
+}
+
+void timecode_reset_unixtime (Timecode * const tc) {
+	tc->d.year=1970;
+	tc->d.day=1;
+	tc->d.month=1;
+	tc->d.timezone=0;
+	timecode_set_time(tc, 0, 0, 0, 0, 0);
 }
