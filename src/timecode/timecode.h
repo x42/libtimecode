@@ -45,12 +45,17 @@ extern "C" {
 #define LIBTIMECODE_AGE  0
 #endif
 
-#ifndef int32_t
+/* ISO C99 has this in <inttypes.h> */
+#if (!defined int32_t && !defined __int8_t_defined)
 typedef int int32_t;
 #endif
 
-#ifndef int64_t
+#if (!defined int64_t && !defined __int8_t_defined)
+#  if __WORDSIZE == 64
+typedef long int int64_t;
+#else
 typedef long long int int64_t;
+#endif
 #endif
 
 /**
@@ -490,9 +495,54 @@ size_t timecode_strftime (char *str, const size_t maxsize, const char *format, c
  */
 void timecode_parse_time (TimecodeTime * const t, TimecodeRate const * const r, const char *val);
 
+
+/**
+ * TODO documentation
+ */
+void timecode_parse_packed_time (TimecodeTime * const t, const char *val);
+
+/**
+ * TODO documentation
+ */
+void timecode_parse_timezone (TimecodeDate * const d, const char *val);
+
+/*  --- misc assignment functions --- */
+
+
+/**
+ * TODO documentation
+ */
+void timecode_parse_libltc_timecode (Timecode * const tc, const void *ltctc);
+
+/**
+ * TODO documentation
+ */
+void timecode_copy_rate (Timecode * const tc, TimecodeRate const * const r);
+
+/**
+ * TODO documentation
+ */
+void timecode_set_rate (Timecode * const tc, const int num, const int den, const int df, const int sf);
+
+/**
+ * TODO documentation
+ */
+void timecode_set_time (Timecode * const tc, const int H, const int M, const int S, const int F, const int s);
+
+/**
+ * TODO documentation
+ */
+void timecode_set_date (Timecode * const tc, const int y, const int m, const int d, const int tz);
+
+/**
+ * TODO documentation
+ */
+void timecode_reset_unixtime (Timecode * const tc);
+
+
+
 /* TODO, ideas */
-// parse date, timezone, parse packed format "HHMMSSFF"
-// import libltc's SMPTETimecode struct
+// add compare function that ignores subframes (or any field) via flag
 // Bar, Beat, Tick Time (Tempo-Based Time)
 
 #ifdef __cplusplus
