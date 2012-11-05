@@ -539,7 +539,15 @@ void timecode_set_date (Timecode * const tc, const int y, const int m, const int
  */
 void timecode_reset_unixtime (Timecode * const tc);
 
+/**
+ * TODO documentation
+ */
+int timecode_date_is_valid(TimecodeDate * const d);
 
+/**
+ * TODO documentation
+ */
+void timecode_move_date_overflow(TimecodeDate * const d);
 
 /* TODO, ideas */
 // add compare function that ignores subframes (or any field) via flag
