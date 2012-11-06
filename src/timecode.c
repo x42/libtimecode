@@ -629,7 +629,7 @@ static const char *strrpbrk(const char * const haystack, const char * const need
 	return rv;
 }
 
-void timecode_parse_time (TimecodeTime * const t, TimecodeRate const * const r, const char *val) {
+int32_t timecode_parse_time (TimecodeTime * const t, TimecodeRate const * const r, const char *val) {
 	int i = 0;
 	char *buf = strdup(val);
 	char *pe;
@@ -640,8 +640,13 @@ void timecode_parse_time (TimecodeTime * const t, TimecodeRate const * const r, 
 		*bcd[i] = 0;
 	}
 
+	if ((pe= strrchr(buf, '.'))) {
+		t->subframe = atoi(pe+1);
+		*pe = '\0';
+	}
+
 	i=0;
-	while (i < 4 && (pe= (char*) strrpbrk(buf,":.;"))) {
+	while (i < 4 && (pe= (char*) strrpbrk(buf,":;"))) {
 		*bcd[i] = (int) atoi(pe+1);
 		*pe = '\0';
 		i++;
@@ -653,11 +658,13 @@ void timecode_parse_time (TimecodeTime * const t, TimecodeRate const * const r, 
 
 	free(buf);
 
-	timecode_move_time_overflow(t, r);
+	int32_t rv = timecode_move_time_overflow(t, r);
 
 	if (r->drop && (t->minute%10 != 0) && (t->second == 0) && (t->frame == 0)) {
 		t->frame=2;
 	}
+
+	return rv;
 }
 
 void timecode_parse_packed_time (TimecodeTime * const t, const char *val) {

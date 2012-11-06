@@ -486,14 +486,20 @@ size_t timecode_strftimecode (char *str, const size_t maxsize, const char *forma
 size_t timecode_strftime (char *str, const size_t maxsize, const char *format, const TimecodeTime const * const t, const TimecodeRate const * const r);
 
 /**
- * parse string to timecode time - separators may include ":.;"
- * the format is "[[[HH:]MM:]SS:]FF", subframes are set to 0.
+ * parse string to timecode time - separators may include ":;"
+ * a dot separator indicates subframe division.
+ *
+ * The accepted format is "[[[HH:]MM:]SS:]FF[.SF]".
+ * if the format is "[[[HH:]MM:]SS:]FF", subframes are set to 0.
+ *
+ * oveflow in each unit moved up to the next unit.
  *
  * @param t [output] the parsed timecode
  * @param r frame rate to use
  * @param val the value to parse
+ * @return 24hour overflow in days
  */
-void timecode_parse_time (TimecodeTime * const t, TimecodeRate const * const r, const char *val);
+int32_t timecode_parse_time (TimecodeTime * const t, TimecodeRate const * const r, const char *val);
 
 
 /**
