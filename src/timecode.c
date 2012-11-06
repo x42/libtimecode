@@ -578,13 +578,13 @@ static char *_fmttc(char *p, const char *limit, const char *format, const Timeco
 
 				/* presets */
 				case 'T':
-					p = _fmttc(p, limit, "%H:%M:%S%;%F", tc);
+					p = _fmttc(p, limit, "%H:%M:%S%:%F", tc);
 					continue;
 				case 'Z':
 					p = _fmttc(p, limit, "%Y-%m-%d %H:%M:%S%:%F.%s %z @%f fps", tc);
 					continue;
 				default:
-					break; // out of select
+					break; // out of select - ignore the '%'
 			}
 		}
 		if (p == limit)
