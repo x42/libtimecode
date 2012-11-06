@@ -19,6 +19,7 @@
 
 */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -671,6 +672,57 @@ void timecode_parse_packed_time (TimecodeTime * const t, const char *val) {
 void timecode_parse_timezone (TimecodeDate * const d, const char *val) {
 	const int tz = atoi(val);
 	d->timezone = (tz/100)*60  + (abs(tz)%100);
+}
+
+void timecode_parse_framerate (TimecodeRate * const r, const char *val, int flags) {
+		// TODO clean up flag usage
+	  char *tmp = strchr(val, '/');
+
+	  r->num = abs(atoi(val));
+	  if (tmp) {
+			r->den=abs(atoi(++tmp));
+		} else {
+			r->den=1;
+		}
+		if (r->den < 1) {
+			r->den = 1;
+		}
+
+		if (!(flags & 2)) {
+				r->drop = 0;
+		}
+
+		if (!(flags & 8)) {
+			if (strstr("ndf", val)) {
+				r->drop = 0;
+				flags &= ~1;
+			} else if (strstr("df", val)) {
+				r->drop = 1;
+				flags &= ~1;
+			}
+#if 0
+			else {
+				r->drop = 0;
+			}
+#endif
+		}
+
+		if ((flags & 3 ) == 1) {
+			if (rint(100.0 * TCtoDbl(r)) == 2997.0) {
+				r->drop = 1;
+			} else {
+				r->drop = 0;
+			}
+		}
+
+		if (!(flags & 4)) {
+				float lz = log10(TCtoDbl(r));
+				if (lz < 2) {
+					r->subframes = 80;
+				} else {
+					r->subframes = pow(10, ceil(lz));
+				}
+		}
 }
 
 /* corresponds to https://github.com/x42/libltc SMPTETimecode */

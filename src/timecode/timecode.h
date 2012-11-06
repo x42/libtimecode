@@ -506,8 +506,13 @@ void timecode_parse_packed_time (TimecodeTime * const t, const char *val);
  */
 void timecode_parse_timezone (TimecodeDate * const d, const char *val);
 
-/*  --- misc assignment functions --- */
+/**
+ * TODO documentation
+ */
+void timecode_parse_framerate (TimecodeRate * const r, const char *val, int flags);
 
+
+/*  --- misc assignment functions --- */
 
 /**
  * TODO documentation
@@ -540,12 +545,12 @@ void timecode_set_date (Timecode * const tc, const int y, const int m, const int
 void timecode_reset_unixtime (Timecode * const tc);
 
 /**
- * TODO documentation
+ * TODO documentation - move to compare functions
  */
 int timecode_date_is_valid(TimecodeDate * const d);
 
 /**
- * TODO documentation
+ * TODO documentation - move to compare/add functions
  */
 void timecode_move_date_overflow(TimecodeDate * const d);
 
