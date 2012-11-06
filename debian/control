@@ -46,3 +46,5 @@ Depends:
 Multi-Arch: same
 Description: linear timecode and framerate conversion library
  work with A/V timecode and framerates..
+ .
+ This package provides the shared library.
