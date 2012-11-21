@@ -502,7 +502,7 @@ static char *_strlcpy(char *dest, const char *limit, const char *src) {
 }
 
 /* follows strftime() where appropriate */
-static char *_fmttc(char *p, const char *limit, const char *format, const Timecode const * const tc) {
+static char *_fmttc(char *p, const char *limit, const char *format, Timecode const * const tc) {
 	for ( ; *format; ++format) {
 		if (*format == '%') {
 			switch (*++format) {
@@ -594,7 +594,7 @@ static char *_fmttc(char *p, const char *limit, const char *format, const Timeco
 	return p;
 }
 
-size_t timecode_strftimecode (char *str, const size_t maxsize, const char *format, const Timecode const * const t) {
+size_t timecode_strftimecode (char *str, const size_t maxsize, const char *format, Timecode const * const t) {
 	char *p;
 	p = _fmttc(str, str + maxsize, ((format == NULL) ? "%c" : format), t);
 	if (p == str + maxsize) return 0;
@@ -602,7 +602,7 @@ size_t timecode_strftimecode (char *str, const size_t maxsize, const char *forma
 	return p - str;
 }
 
-size_t timecode_strftime (char *str, const size_t maxsize, const char *format, const TimecodeTime const * const t, const TimecodeRate const * const r) {
+size_t timecode_strftime (char *str, const size_t maxsize, const char *format, TimecodeTime const * const t, TimecodeRate const * const r) {
 	Timecode tc;
 	memset(&tc, 0, sizeof(Timecode));
 	memcpy(&tc.t, t, sizeof(TimecodeTime));
@@ -682,54 +682,57 @@ void timecode_parse_timezone (TimecodeDate * const d, const char *val) {
 }
 
 void timecode_parse_framerate (TimecodeRate * const r, const char *val, int flags) {
-		// TODO clean up flag usage
-	  char *tmp = strchr(val, '/');
+	// TODO clean up flag usage
+	char *tmp = (char*) strchr(val, '/');
 
-	  r->num = abs(atoi(val));
-	  if (tmp) {
-			r->den=abs(atoi(++tmp));
-		} else {
-			r->den=1;
-		}
-		if (r->den < 1) {
-			r->den = 1;
-		}
+	r->num = abs(atoi(val));
+	if (tmp) {
+		r->den=abs(atoi(++tmp));
+	} else {
+		r->den=1;
+	}
 
-		if (!(flags & 2)) {
-				r->drop = 0;
-		}
+	if (r->den < 1) {
+		r->den = 1;
+	}
 
-		if (!(flags & 8)) {
-			if (strstr("ndf", val)) {
-				r->drop = 0;
-				flags &= ~1;
-			} else if (strstr("df", val)) {
-				r->drop = 1;
-				flags &= ~1;
-			}
+	if (!(flags & 2)) {
+			r->drop = 0;
+	}
+
+	if (!(flags & 8)) {
+		if (strstr(val, "ndf")) {
+			printf("NDF\n");
+			r->drop = 0;
+			flags &= ~1;
+		} else if (strstr(val, "df")) {
+			printf("DF\n");
+			r->drop = 1;
+			flags &= ~1;
+		}
 #if 0
-			else {
-				r->drop = 0;
-			}
+		else {
+			r->drop = 0;
+		}
 #endif
-		}
+	}
 
-		if ((flags & 3 ) == 1) {
-			if (rint(100.0 * TCtoDbl(r)) == 2997.0) {
-				r->drop = 1;
+	if ((flags & 3 ) == 1) {
+		if (rint(100.0 * TCtoDbl(r)) == 2997.0) {
+			r->drop = 1;
+		} else {
+			r->drop = 0;
+		}
+	}
+
+	if (!(flags & 4)) {
+			float lz = log10(TCtoDbl(r));
+			if (lz < 2) {
+				r->subframes = 80;
 			} else {
-				r->drop = 0;
+				r->subframes = pow(10, ceil(lz));
 			}
-		}
-
-		if (!(flags & 4)) {
-				float lz = log10(TCtoDbl(r));
-				if (lz < 2) {
-					r->subframes = 80;
-				} else {
-					r->subframes = pow(10, ceil(lz));
-				}
-		}
+	}
 }
 
 /* corresponds to https://github.com/x42/libltc SMPTETimecode */

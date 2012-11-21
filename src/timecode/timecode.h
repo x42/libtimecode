@@ -471,7 +471,7 @@ void timecode_time_to_string (char *smptestring, TimecodeTime const * const t);
  * @param t the timecode to format
  * @return number of bytes written to str
  */
-size_t timecode_strftimecode (char *str, const size_t maxsize, const char *format, const Timecode const * const t);
+size_t timecode_strftimecode (char *str, const size_t maxsize, const char *format, Timecode const * const t);
 
 /**
  * wrapper around \ref timecode_strftimecode for formatting timecode time.
@@ -483,7 +483,7 @@ size_t timecode_strftimecode (char *str, const size_t maxsize, const char *forma
  * @param r optional framerate (may be NULL)
  * @return number of bytes written to str
  */
-size_t timecode_strftime (char *str, const size_t maxsize, const char *format, const TimecodeTime const * const t, const TimecodeRate const * const r);
+size_t timecode_strftime (char *str, const size_t maxsize, const char *format, TimecodeTime const * const t, TimecodeRate const * const r);
 
 /**
  * parse string to timecode time - separators may include ":;"
