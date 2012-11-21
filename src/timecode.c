@@ -71,7 +71,7 @@ int64_t timecode_to_sample (TimecodeTime const * const t, TimecodeRate const * c
 				 + (t->frame * frames_per_timecode_frame));
 	}
 	if (r->subframes != 0) {
-		sample += t->subframe * frames_per_timecode_frame / r->subframes;
+		sample += rint((double)t->subframe * frames_per_timecode_frame / (double)r->subframes);
 	}
 	return sample;
 }
