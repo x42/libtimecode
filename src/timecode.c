@@ -89,7 +89,7 @@ void timecode_sample_to_time (TimecodeTime * const t, TimecodeRate const * const
 
 		t->subframe =  rint(r->subframes * ((double)sample * fps_d / samplerate - (double)frameNumber));
 
-		if (t->subframe == r->subframes) {
+		if (t->subframe == r->subframes && r->subframes != 0) {
 			t->subframe = 0;
 			frameNumber++;
 		}
@@ -118,7 +118,7 @@ void timecode_sample_to_time (TimecodeTime * const t, TimecodeRate const * const
 
 		timecode_frames_left = (int64_t) floor (timecode_frames_left_exact);
 
-		if (t->subframe == r->subframes) {
+		if (t->subframe == r->subframes && r->subframes != 0) {
 			t->subframe = 0;
 			timecode_frames_left++;
 		}
@@ -167,13 +167,13 @@ int64_t timecode_seconds_to_framenumber (const double sec, TimecodeRate const * 
 }
 
 void timecode_seconds_to_time (TimecodeTime * const t, TimecodeRate const * const r, const double sec) {
-	const double rate = TCtoDbl(r) * r->subframes;
+	const double rate = TCtoDbl(r) * (r->subframes != 0 ? r->subframes : 1.0);
 	timecode_sample_to_time(t, r, rate,
 			timecode_seconds_to_sample(sec, rate));
 }
 
 double timecode_to_sec (TimecodeTime const * const t, TimecodeRate const * const r) {
-	const double rate = TCtoDbl(r) * r->subframes;
+	const double rate = TCtoDbl(r) * (r->subframes != 0 ? r->subframes : 1.0);
 	return timecode_sample_to_seconds(timecode_to_sample(t, r, rate), rate);
 }
 
@@ -193,6 +193,7 @@ static int32_t timecode_move_time_overflow(TimecodeTime * const t, TimecodeRate 
 
 	for (i=0; i<5; i++) {
 		if ((*bcd[i] >= smpte_table[i]) || (*bcd[i] < 0) ) {
+			if (smpte_table[i] == 0) continue;
 			int ov= (int) floor((double) (*bcd[i]) / smpte_table[i]);
 #if 0
 			// TODO drop-frames ? - basically only needed when parsing invalid TC
