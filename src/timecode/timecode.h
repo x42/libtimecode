@@ -87,7 +87,7 @@ typedef struct TimecodeRate {
 	int32_t num; ///< fps numerator
 	int32_t den; ///< fps denominator
 	int drop; ///< 1: use drop-frame timecode (only valid for 2997/100)
-	int32_t subframes; ///< number of subframes per frame
+	int32_t subframes; ///< number of subframes per frame - may be zero
 } TimecodeRate;
 
 /**
