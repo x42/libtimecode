@@ -11,12 +11,12 @@
 
 int checkfps(int64_t magic, TimecodeRate const * const fps, double samplerate) {
 	TimecodeTime t;
-	char tcs[20];
+	char tcs[128];
 	int64_t test;
 
 	timecode_sample_to_time(&t, fps, samplerate, magic);
 	test = timecode_to_sample(&t, fps, samplerate);
-	timecode_time_to_string(tcs, &t); fprintf(stdout, "%s @%.2f%s\n", tcs, timecode_rate_to_double(fps), fps->drop?"df":"");
+	timecode_strftime(tcs, 128, "%Z", &t, fps); fprintf(stdout, "%s\n", tcs);
 	printf("%lld %lld  diff: %lld\n", test, magic, magic-test);
 
 	return 0;
@@ -110,7 +110,11 @@ int main (int argc, char **argv) {
   int64_t magic = 964965602; // 05:34:43:11 @29.97ndf, 48kSPS
   //int64_t magic = 1601568888; //
 	Timecode tc;
+	memset(&tc, 0, sizeof(Timecode));
 
+	checkfps(259199740, TCFPS2997DF, 48000);
+	checkfps(48048, TCFPS2997DF, 48000);
+	checkfps(48047, TCFPS2997DF, 48000);
 	/* test converter */
 	printf("test convert\n");
 	checkfps(magic, &tcfps23976, 48000);
@@ -127,6 +131,10 @@ int main (int argc, char **argv) {
 	char tcs[64];
 	timecode_parse_time(&t, TCFPS25, "1:::-1");
 	timecode_time_to_string(tcs, &t); fprintf(stdout, "%s\n", tcs);
+
+	timecode_parse_time(&tc.t, TCFPS25, ":::1.100");
+	timecode_copy_rate(&tc, TCFPSMS);
+	timecode_strftimecode(tcs, 64, "%Z", &tc); fprintf(stdout, "%s\n", tcs);
 
 	/* test add/sub */
 	printf("test addition/subtraction\n");
