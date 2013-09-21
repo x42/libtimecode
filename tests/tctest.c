@@ -195,14 +195,25 @@ int main (int argc, char **argv) {
 	//timecode_time_to_string(tcs, &tc.t); fprintf(stdout, "%s\n", tcs);
 
 	printf(" to/from sec\n");
-	double sec = timecode_to_sec(&tc.t, &tcfps24);
+	double sec = timecode_to_sec(&tc.t, &tcfpsUS);
 	printf("%f\n", sec);
 	timecode_seconds_to_time(&tc.t, TCFPSMS, sec);
-
 	memcpy(&tc.r, TCFPSMS, sizeof(TimecodeRate));
+#if 0
 	tc.t.frame = 5;
 	tc.d.timezone = -90;
+#endif
 	timecode_strftimecode(tcs, 64,"%Z", &tc); fprintf(stdout, "%s\n", tcs);
+
+	printf(" check \n");
+	timecode_copy_rate(&tc, &tcfps2997df);
+	timecode_parse_time(&tc.t, &tc.r, "05:35:03:15");
+	printf("%lld  <> 964965602\n", timecode_to_sample(&tc.t, &tc.r, 48000));
+
+
+	timecode_copy_rate(&tc, &tcfps2997ndf);
+	timecode_parse_time(&tc.t, &tc.r, "05:34:43:11");
+	printf("%lld  <> 964965602\n", timecode_to_sample(&tc.t, &tc.r, 48000));
 
 	return 0;
 }
