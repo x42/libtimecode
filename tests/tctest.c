@@ -189,10 +189,12 @@ int main (int argc, char **argv) {
 	timecode_time_to_string(tcs, &tc.t); fprintf(stdout, "%s @25fps\n", tcs);
 	timecode_convert_rate(&tc.t, TCFPS24, &tc.t, TCFPS25);
 	timecode_time_to_string(tcs, &tc.t); fprintf(stdout, "%s @24fps\n", tcs);
-	//timecode_convert_rate(&tc.t, TCFPS30, &tc.t, TCFPS24);
-	//timecode_time_to_string(tcs, &tc.t); fprintf(stdout, "%s @30fps\n", tcs);
-	//timecode_convert_rate(&tc.t, &tcfpsUS, &tc.t, TCFPS30);
-	//timecode_time_to_string(tcs, &tc.t); fprintf(stdout, "%s\n", tcs);
+	timecode_convert_rate(&tc.t, TCFPS30, &tc.t, TCFPS24);
+	timecode_time_to_string(tcs, &tc.t); fprintf(stdout, "%s @30fps\n", tcs);
+#if 1
+	timecode_convert_rate(&tc.t, &tcfpsUS, &tc.t, TCFPS30);
+	timecode_time_to_string(tcs, &tc.t); fprintf(stdout, "%s\n", tcs);
+#endif
 
 	printf(" to/from sec\n");
 	double sec = timecode_to_sec(&tc.t, &tcfpsUS);
