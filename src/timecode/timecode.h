@@ -113,7 +113,7 @@ const TimecodeRate tcfps2997df  = { 30000, 1001, 1, 80};
 const TimecodeRate tcfps30      = {    30,    1, 0, 80};
 const TimecodeRate tcfps30df    = {    30,    1, 1, 80};
 const TimecodeRate tcfps5994    = { 60000, 1001, 0, 80};
-const TimecodeRate tcfps60      = {    30,    1, 0, 80};
+const TimecodeRate tcfps60      = {    60,    1, 0, 80};
 
 const TimecodeRate tcfpsDS      = {        10,   1, 0, 1000};
 const TimecodeRate tcfpsCS      = {       100,   1, 0, 1000};
