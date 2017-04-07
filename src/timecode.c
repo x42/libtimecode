@@ -61,7 +61,7 @@ int64_t timecode_to_sample (TimecodeTime const * const t, TimecodeRate const * c
 			                 + fps_i * t->second + t->frame
 					 - 2 * (totalMinutes - totalMinutes / 10);
 
-		sample = frameNumber * samplerate / fps_d;
+		sample = floor (frameNumber * (samplerate / fps_d));
 	} else {
 		sample = (int64_t) rint(
 				(
