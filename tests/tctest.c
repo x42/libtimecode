@@ -207,12 +207,26 @@ int main (int argc, char **argv) {
 #endif
 	timecode_strftimecode(tcs, 64,"%Z", &tc); fprintf(stdout, "%s\n", tcs);
 
-	printf(" check \n");
+	printf(" 29.97df test 1\n");
 	timecode_copy_rate(&tc, &tcfps2997df);
 	timecode_parse_time(&tc.t, &tc.r, "05:35:03:15");
-	printf("%lld  <> 964965602\n", timecode_to_sample(&tc.t, &tc.r, 48000));
+	printf("%lld  <> 964965602\n", timecode_to_sample(&tc.t, &tc.r, 48000)); // ??
 
+	// https://github.com/x42/libtimecode/issues/5
+	printf(" 29.97df test 2\n");
+	timecode_copy_rate(&tc, &tcfps2997df);
+	timecode_parse_time(&tc.t, &tc.r, "08:33:25:02");
+	timecode_sample_to_time (&tc.t, &tc.r, 48000, timecode_to_sample(&tc.t, &tc.r, 48000));
+	timecode_time_to_string(tcs, &tc.t); fprintf(stdout, "%s <> 08:33:25:02\n", tcs);
 
+	printf(" 29.97df test 3\n");
+	timecode_copy_rate(&tc, &tcfps2997df);
+	timecode_parse_time(&tc.t, &tc.r, "08:33:25:02");
+	printf("%lld  <> 923228\n", timecode_to_framenumber(&tc.t, &tc.r));
+	timecode_framenumber_to_time (&tc.t, &tc.r, timecode_to_framenumber(&tc.t, &tc.r));
+	timecode_time_to_string(tcs, &tc.t); fprintf(stdout, "%s <> 08:33:25:02\n", tcs);
+
+	printf(" 29.97ndf test\n");
 	timecode_copy_rate(&tc, &tcfps2997ndf);
 	timecode_parse_time(&tc.t, &tc.r, "05:34:43:11");
 	printf("%lld  <> 964965602\n", timecode_to_sample(&tc.t, &tc.r, 48000));
