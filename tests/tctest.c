@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <inttypes.h>
 #include <timecode/timecode.h>
 
 int checkfps(int64_t magic, TimecodeRate const * const fps, double samplerate) {
@@ -17,7 +18,7 @@ int checkfps(int64_t magic, TimecodeRate const * const fps, double samplerate) {
 	timecode_sample_to_time(&t, fps, samplerate, magic);
 	test = timecode_to_sample(&t, fps, samplerate);
 	timecode_strftime(tcs, 128, "%Z", &t, fps); fprintf(stdout, "%s\n", tcs);
-	printf("%lld %lld  diff: %lld\n", test, magic, magic-test);
+	printf("%"PRId64" %"PRId64"  diff: %"PRId64"\n", test, magic, magic-test);
 
 	return 0;
 }
@@ -215,7 +216,7 @@ int main (int argc, char **argv) {
 	printf(" 29.97df test 1\n");
 	timecode_copy_rate(&tc, timecode_FPS2997DF);
 	timecode_parse_time(&tc.t, &tc.r, "05:35:03:15");
-	printf("%lld  <> 964965602\n", timecode_to_sample(&tc.t, &tc.r, 48000)); // ??
+	printf("%"PRId64"  <> 964965602\n", timecode_to_sample(&tc.t, &tc.r, 48000)); // ??
 
 	// https://github.com/x42/libtimecode/issues/5
 	printf(" 29.97df test 2\n");
@@ -227,14 +228,14 @@ int main (int argc, char **argv) {
 	printf(" 29.97df test 3\n");
 	timecode_copy_rate(&tc, timecode_FPS2997DF);
 	timecode_parse_time(&tc.t, &tc.r, "08:33:25:02");
-	printf("%lld  <> 923228\n", timecode_to_framenumber(&tc.t, &tc.r));
+	printf("%"PRId64"  <> 923228\n", timecode_to_framenumber(&tc.t, &tc.r));
 	timecode_framenumber_to_time (&tc.t, &tc.r, timecode_to_framenumber(&tc.t, &tc.r));
 	timecode_time_to_string(tcs, &tc.t); fprintf(stdout, "%s <> 08:33:25:02\n", tcs);
 
 	printf(" 29.97ndf test\n");
 	timecode_copy_rate(&tc, &tcfps2997ndf);
 	timecode_parse_time(&tc.t, &tc.r, "05:34:43:11");
-	printf("%lld  <> 964965602\n", timecode_to_sample(&tc.t, &tc.r, 48000));
+	printf("%"PRId64"  <> 964965602\n", timecode_to_sample(&tc.t, &tc.r, 48000));
 
 	return 0;
 }
