@@ -32,15 +32,15 @@ extern "C" {
 
 #ifndef DOXYGEN_IGNORE
 /* libtimecode version */
-#define LIBTIMECODE_VERSION "0.5.0"
+#define LIBTIMECODE_VERSION "0.1.0"
 #define LIBTIMECODE_VERSION_MAJOR  0
-#define LIBTIMECODE_VERSION_MINOR  0
+#define LIBTIMECODE_VERSION_MINOR  1
 #define LIBTIMECODE_VERSION_MICRO  0
 
 /* interface revision number
  * http://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
  */
-#define LIBTIMECODE_CUR  0
+#define LIBTIMECODE_CUR  1
 #define LIBTIMECODE_REV  0
 #define LIBTIMECODE_AGE  0
 #endif
@@ -90,6 +90,15 @@ typedef struct TimecodeRate {
 	int32_t subframes; ///< number of subframes per frame - may be zero
 } TimecodeRate;
 
+
+extern const TimecodeRate* timecode_FPS23976;  ///< { 24000, 1001, 0, 80};
+extern const TimecodeRate* timecode_FPS24;     ///< {    24,    1, 0, 80};
+extern const TimecodeRate* timecode_FPS24976;  ///< { 25000, 1001, 0, 80};
+extern const TimecodeRate* timecode_FPS25;     ///< {    25,    1, 0, 80};
+extern const TimecodeRate* timecode_FPS2997DF; ///< { 30000, 1001, 1, 80};
+extern const TimecodeRate* timecode_FPS30;     ///< {    30,    1, 0, 80};
+extern const TimecodeRate* timecode_FPSMS;     ///< {  1000,    1, 0, 1000};
+
 /**
  * complete date time description incl frame rate
  */
@@ -98,36 +107,6 @@ typedef struct Timecode {
 	TimecodeDate d; ///< date MM/DD/YYYY + Timezone
 	TimecodeRate r; ///< the frame rate used for TimecodeTime
 } Timecode;
-
-
-/* TODO: subframe default, use 80, 100 or 384 or 600 or 5760,.. or 500000
- * 84672000 = LCM(192k, 88.2k, 24, 25, 30)
- */
-
-const TimecodeRate tcfps23976   = { 24000, 1001, 0, 80};
-const TimecodeRate tcfps24      = {    24,    1, 0, 80};
-const TimecodeRate tcfps24976   = { 25000, 1001, 0, 80};
-const TimecodeRate tcfps25      = {    25,    1, 0, 80};
-const TimecodeRate tcfps2997ndf = { 30000, 1001, 0, 80};
-const TimecodeRate tcfps2997df  = { 30000, 1001, 1, 80};
-const TimecodeRate tcfps30      = {    30,    1, 0, 80};
-const TimecodeRate tcfps30df    = {    30,    1, 1, 80};
-const TimecodeRate tcfps5994    = { 60000, 1001, 0, 80};
-const TimecodeRate tcfps60      = {    60,    1, 0, 80};
-
-const TimecodeRate tcfpsDS      = {        10,   1, 0, 1000};
-const TimecodeRate tcfpsCS      = {       100,   1, 0, 1000};
-const TimecodeRate tcfpsMS      = {      1000,   1, 0, 1000};
-const TimecodeRate tcfpsUS      = {   1000000,   1, 0, 1};
-const TimecodeRate tcfpsNS      = {1000000000,   1, 0, 1};
-
-#define TCFPS23976 (&tcfps23976)
-#define TCFPS24 (&tcfps24)
-#define TCFPS24976 (&tcfps24976)
-#define TCFPS25 (&tcfps25)
-#define TCFPS2997DF (&tcfps2997df)
-#define TCFPS30 (&tcfps30)
-#define TCFPSMS (&tcfpsMS)
 
 
 /*  --- misc functions  --- */

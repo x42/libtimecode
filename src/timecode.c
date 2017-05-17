@@ -24,12 +24,47 @@
 #include <config.h>
 #endif
 
+#define _GNU_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 
 #include "timecode/timecode.h"
+
+/*****************************************************************************
+ * Constants
+ */
+
+/* TODO: subframe default, use 80, 100 or 384 or 600 or 5760,.. or 500000
+ * 84672000 = LCM(192k, 88.2k, 24, 25, 30)
+ */
+
+const TimecodeRate tcfps23976   = { 24000, 1001, 0, 80};
+const TimecodeRate tcfps24      = {    24,    1, 0, 80};
+const TimecodeRate tcfps24976   = { 25000, 1001, 0, 80};
+const TimecodeRate tcfps25      = {    25,    1, 0, 80};
+const TimecodeRate tcfps2997ndf = { 30000, 1001, 0, 80};
+const TimecodeRate tcfps2997df  = { 30000, 1001, 1, 80};
+const TimecodeRate tcfps30      = {    30,    1, 0, 80};
+const TimecodeRate tcfps30df    = {    30,    1, 1, 80};
+const TimecodeRate tcfps5994    = { 60000, 1001, 0, 80};
+const TimecodeRate tcfps60      = {    60,    1, 0, 80};
+
+const TimecodeRate tcfpsDS      = {        10,   1, 0, 1000};
+const TimecodeRate tcfpsCS      = {       100,   1, 0, 1000};
+const TimecodeRate tcfpsMS      = {      1000,   1, 0, 1000};
+const TimecodeRate tcfpsUS      = {   1000000,   1, 0, 1};
+const TimecodeRate tcfpsNS      = {1000000000,   1, 0, 1};
+
+const TimecodeRate* timecode_FPS23976 = &tcfps23976;
+const TimecodeRate* timecode_FPS24 = &tcfps24;
+const TimecodeRate* timecode_FPS24976 = &tcfps24976;
+const TimecodeRate* timecode_FPS25 = &tcfps25;
+const TimecodeRate* timecode_FPS2997DF = &tcfps2997df;
+const TimecodeRate* timecode_FPS30 = &tcfps30;
+const TimecodeRate* timecode_FPSMS = &tcfpsMS;
 
 /*****************************************************************************
  * misc & helper functions
