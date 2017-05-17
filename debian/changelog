@@ -1,5 +1,5 @@
-libtimecode (0.0.0-1) unstable; urgency=low
+libtimecode (0.1.0-1) unstable; urgency=low
 
   * Initial release. (Closes: #NNNNNN).
 
- -- Robin Gareus <robin@gareus.org>  Sun, 25 Oct 2012 10:45:53 +0200
+ -- Robin Gareus <robin@gareus.org>  Wed, 17 May 2017 11:35:46 +0200

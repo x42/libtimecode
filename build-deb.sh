@@ -10,7 +10,7 @@ GITBRANCH=${GITBRANCH:-master}
 
 echo "debian -export-ignore" >> .git/info/attributes
 
-git-buildpackage \
+gbp buildpackage \
 	--git-upstream-branch=$GITBRANCH --git-debian-branch=$GITBRANCH \
 	--git-upstream-tree=branch \
 	--git-export-dir=${TMPDIR} --git-cleaner=/bin/true \

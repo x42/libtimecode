@@ -10,7 +10,7 @@ Build-Depends:
  libtool
 Build-Depends-Indep:
  doxygen
-Standards-Version: 3.9.3
+Standards-Version: 3.9.8
 Homepage: https://github.com/x42/libtimecode
 Vcs-Git: git://github.com/x42/libtimecode.git
 
@@ -18,7 +18,7 @@ Package: libtimecode-dev
 Section: libdevel
 Architecture: any
 Depends:
- libtimecode0(= ${binary:Version}),
+ libtimecode1(= ${binary:Version}),
  ${misc:Depends}
 Multi-Arch: same
 Description: Development files for libtimecode
@@ -37,7 +37,7 @@ Description: Documentation for libtimecode
  This package contains the API reference (as manpages) for the development of
  applications.
 
-Package: libtimecode0
+Package: libtimecode1
 Architecture: any
 Pre-Depends: ${misc:Pre-Depends}
 Depends:
