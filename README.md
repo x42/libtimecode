@@ -8,5 +8,5 @@ Timecode and Framerate manipulation functions.
 Documentation
 -------------
 
-http://x42.github.com/libtimecode/
+http://x42.github.io/libtimecode/
 
